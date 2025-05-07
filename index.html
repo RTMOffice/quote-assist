@@ -866,38 +866,41 @@
                         if (tmData.onAfp) afpItems.push(...tmData.standardItems);
                     }
 
-                    if (isEmergency && quoteItemsData.TM15) {
+                    // Apply Emergency Fee only for OSA
+                    if (isEmergency && selectedContractType === "OSA" && quoteItemsData.TM15) {
                         if (isSpecialActionIA) {
+                            // If OSA I&A and emergency, AFP is solely for emergency
                             afpItems = [quoteItemsData.TM15]; 
-                        } else if (!afpItems.find(item => item.code === "TM15" && item.description === quoteItemsData.TM15.description)) {
+                        } else if (!afpItems.find(item => item.code === "TM15")) {
                            afpItems.push(quoteItemsData.TM15); 
                         }
-                    } else if (isSpecialActionIA) {
+                    } else if (isSpecialActionIA && selectedContractType === "OSA") { 
+                        // If OSA I&A but not emergency, ensure afpItems from TM are cleared
                         afpItems = []; 
                     }
                     
                     const anInvoiceIsNeeded = invoiceItems.length > 0;
                     const anAfpIsNeeded = afpItems.length > 0;
 
-                    if (isSpecialActionIA) {
+                    if (isSpecialActionIA) { // This flag is primarily for OSA TM types with specialAction
                         iaInvoiceActionIcon.classList.remove('inactive');
                         iaInvoiceActionIcon.classList.add('active');
                         invoiceActionIcon.classList.add('inactive'); 
                         invoiceActionIcon.classList.remove('active');
                         
-                        if (isEmergency && anAfpIsNeeded) { 
+                        if (isEmergency && selectedContractType === "OSA" && anAfpIsNeeded) { 
                             afpActionIcon.classList.remove('inactive');
                             afpActionIcon.classList.add('active');
                         } else {
                             afpActionIcon.classList.add('inactive');
                             afpActionIcon.classList.remove('active');
                         }
-                    } else {
+                    } else { // Not an I&A Invoice special action TM type (e.g. standard OSA, ONSA, Fibre)
                         if (anInvoiceIsNeeded) {
                             invoiceActionIcon.classList.remove('inactive');
                             invoiceActionIcon.classList.add('active');
                         }
-                        if (anAfpIsNeeded) {
+                        if (anAfpIsNeeded) { 
                             afpActionIcon.classList.remove('inactive');
                             afpActionIcon.classList.add('active');
                         }
@@ -905,15 +908,19 @@
                     
                     if (anInvoiceIsNeeded) generateTable(invoiceTableContainer, "Invoice Items", invoiceItems);
                     
-                    if (isSpecialActionIA) {
+                    // AFP Table display logic
+                    if (isSpecialActionIA && selectedContractType === "OSA") { // OSA I&A case
                         if (isEmergency && anAfpIsNeeded) { 
-                            generateTable(afpTableContainer, "AFP Items (Emergency Only)", afpItems);
+                            generateTable(afpTableContainer, "AFP Items (Emergency Only)", afpItems.filter(item => item.code === "TM15"));
                         } else {
                             afpTableContainer.innerHTML = ''; 
                         }
-                    } else if (anAfpIsNeeded) { 
+                    } else if (anAfpIsNeeded) { // Non-I&A OSA, or ONSA/Fibre cases
                         generateTable(afpTableContainer, "AFP Items", afpItems);
+                    } else {
+                         afpTableContainer.innerHTML = ''; // Clear if no AFP items at all
                     }
+
 
                     if (additionalNotes.length > 0) {
                         let notesHtml = '<h4 class="text-md font-semibold text-gray-600 mt-4 mb-1">Additional Notes:</h4><ul>';
