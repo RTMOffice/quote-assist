@@ -100,18 +100,23 @@
             border-bottom: none;
         }
         .scrollable-checkbox-group {
-            max-height: 200px; /* Adjust as needed for TM types */
+            max-height: 200px; 
             overflow-y: auto;
-            padding-right: 0.5rem; /* For scrollbar */
+            padding-right: 0.5rem; 
         }
-        .additional-req-group { /* For Additional Requirements, can also be scrollable if it grows */
-             max-height: 250px; /* Adjust as needed */
+        .additional-req-group { 
+             max-height: 250px; 
             overflow-y: auto;
-            padding-right: 0.5rem; /* For scrollbar */
+            padding-right: 0.5rem; 
+        }
+         .contract-type-group { 
+             max-height: 250px; 
+            overflow-y: auto;
+            padding-right: 0.5rem; 
         }
         .notes-section ul {
             list-style-type: disc;
-            padding-left: 1.5rem; /* Indent bullet points */
+            padding-left: 1.5rem; 
             margin-top: 0.5rem;
         }
         .notes-section li {
@@ -130,7 +135,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="checkbox-card">
                 <h2 class="text-xl font-semibold text-gray-700 mb-4">Contract Type</h2>
-                <div class="space-y-3">
+                <div class="space-y-3 contract-type-group"> 
                     <div>
                         <input type="checkbox" id="osa" name="contractType" value="OSA" class="checkbox-input">
                         <label for="osa" class="checkbox-label">OSA LOT 2.0</label>
@@ -143,20 +148,30 @@
                         <input type="checkbox" id="fibre" name="contractType" value="Fibre Build" class="checkbox-input">
                         <label for="fibre" class="checkbox-label">Fibre Build</label>
                     </div>
+                    <hr class="my-3 border-gray-300"> 
+                    <div>
+                        <input type="checkbox" id="moreThan12Hours" name="duration" value="More than 12 hours" class="checkbox-input">
+                        <label for="moreThan12Hours" class="checkbox-label">Is it more than 12 hours?</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="emergency" name="urgency" value="Emergency" class="checkbox-input">
+                        <label for="emergency" class="checkbox-label">Is emergency?</label>
+                    </div>
                 </div>
             </div>
 
             <div class="checkbox-card">
                 <h2 class="text-xl font-semibold text-gray-700 mb-4">Traffic Management</h2>
                 <div class="space-y-3 scrollable-checkbox-group">
-                    <div><input type="checkbox" id="tmTwoWayLights" name="trafficManagement" value="2 Way Lights (40mph≥)" class="checkbox-input"><label for="tmTwoWayLights" class="checkbox-label">2 Way Lights (40mph&ge;)</label></div>
+                    <div><input type="checkbox" id="tmTwoWayLightsGe" name="trafficManagement" value="2 Way Lights (40mph≥)" class="checkbox-input"><label for="tmTwoWayLightsGe" class="checkbox-label">2 Way Lights (40mph&ge;)</label></div>
+                    <div><input type="checkbox" id="tmTwoWayLightsLt" name="trafficManagement" value="2 Way Lights (40mph<)" class="checkbox-input"><label for="tmTwoWayLightsLt" class="checkbox-label">2 Way Lights (40mph&lt;)</label></div>
                     <div><input type="checkbox" id="tmThreeWayLights" name="trafficManagement" value="3 Way Lights" class="checkbox-input"><label for="tmThreeWayLights" class="checkbox-label">3 Way Lights</label></div>
                     <div><input type="checkbox" id="tmFourWayLights" name="trafficManagement" value="4 Way Lights" class="checkbox-input"><label for="tmFourWayLights" class="checkbox-label">4 Way Lights</label></div>
                     <div><input type="checkbox" id="tmFiveWayLights" name="trafficManagement" value="5 Way Lights" class="checkbox-input"><label for="tmFiveWayLights" class="checkbox-label">5 Way Lights</label></div>
                     <div><input type="checkbox" id="tmBusStopSuspension" name="trafficManagement" value="Bus Stop Suspension" class="checkbox-input"><label for="tmBusStopSuspension" class="checkbox-label">Bus Stop Suspension</label></div>
                     <div><input type="checkbox" id="tmFootpathClosure" name="trafficManagement" value="Footpath Closure" class="checkbox-input"><label for="tmFootpathClosure" class="checkbox-label">Footpath Closure</label></div>
-                    <div><input type="checkbox" id="tmLaneClosure" name="trafficManagement" value="Lane Closure (40mph≥)" class="checkbox-input"><label for="tmLaneClosure" class="checkbox-label">Lane Closure (40mph&ge;)</label></div>
-                    <div><input type="checkbox" id="tmLaneClosureLess" name="trafficManagement" value="Lane Closure (40mph<)" class="checkbox-input"><label for="tmLaneClosureLess" class="checkbox-label">Lane Closure (40mph&lt;)</label></div>
+                    <div><input type="checkbox" id="tmLaneClosureGe" name="trafficManagement" value="Lane Closure (40mph≥)" class="checkbox-input"><label for="tmLaneClosureGe" class="checkbox-label">Lane Closure (40mph&ge;)</label></div>
+                    <div><input type="checkbox" id="tmLaneClosureLt" name="trafficManagement" value="Lane Closure (40mph<)" class="checkbox-input"><label for="tmLaneClosureLt" class="checkbox-label">Lane Closure (40mph&lt;)</label></div>
                     <div><input type="checkbox" id="tmPedCrossingOnly" name="trafficManagement" value="Ped Crossing Only" class="checkbox-input"><label for="tmPedCrossingOnly" class="checkbox-label">Ped Crossing Only</label></div>
                     <div><input type="checkbox" id="tmPreCone" name="trafficManagement" value="Pre Cone" class="checkbox-input"><label for="tmPreCone" class="checkbox-label">Pre Cone</label></div>
                     <div><input type="checkbox" id="tmRoadClosure" name="trafficManagement" value="Road closure" class="checkbox-input"><label for="tmRoadClosure" class="checkbox-label">Road closure</label></div>
@@ -183,7 +198,7 @@
                     </div>
                     <div>
                         <input type="checkbox" id="pedSets" name="additional" value="Ped Sets" class="checkbox-input">
-                        <label for="pedSets" class="checkbox-label">Ped Sets (Ped Lights)</label>
+                        <label for="pedSets" class="checkbox-label">Ped Sets</label>
                     </div>
                      <div>
                         <input type="checkbox" id="additionalTmPlan" name="additional" value="Additional TM Plan" class="checkbox-input">
@@ -194,17 +209,8 @@
                         <label for="specialSigns" class="checkbox-label">Special Signs</label>
                     </div>
                      <div>
-                        <input type="checkbox" id="bss" name="additional" value="BSS" class="checkbox-input">
-                        <label for="bss" class="checkbox-label">BSS (Additional)</label>
-                    </div>
-                    <hr class="my-3 border-gray-300">
-                    <div>
-                        <input type="checkbox" id="moreThan12Hours" name="duration" value="More than 12 hours" class="checkbox-input">
-                        <label for="moreThan12Hours" class="checkbox-label">Is it more than 12 hours?</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="emergency" name="urgency" value="Emergency" class="checkbox-input">
-                        <label for="emergency" class="checkbox-label">Is emergency?</label>
+                        <input type="checkbox" id="bss" name="additional" value="Bus Stop Suspension" class="checkbox-input">
+                        <label for="bss" class="checkbox-label">Bus Stop Suspension</label>
                     </div>
                 </div>
             </div>
@@ -226,10 +232,10 @@
             
             const manualControlCheckbox = document.getElementById('manualControl');
             const oohCheckbox = document.getElementById('ooh');
-            const pedSetsCheckbox = document.getElementById('pedSets'); // For "Ped Sets (Ped Lights)"
+            const pedSetsCheckbox = document.getElementById('pedSets'); 
             const additionalTmPlanCheckbox = document.getElementById('additionalTmPlan');
             const specialSignsCheckbox = document.getElementById('specialSigns');
-            const bssCheckbox = document.getElementById('bss'); // For "BSS (Additional)"
+            const bssCheckbox = document.getElementById('bss'); 
             
             const moreThan12HoursCheckbox = document.getElementById('moreThan12Hours');
             const emergencyCheckbox = document.getElementById('emergency');
@@ -240,64 +246,74 @@
             const additionalNotesContainer = document.getElementById('additionalNotesContainer');
 
             // Data for quote items
+            // Includes OSA LOT 2.0 Traffic Management Items and Additional Requirements
             // specialAction: "I&A Invoice" for specific TM types.
             // additionalNote: "I&A Invoice" for specific additional requirement items if they need a bullet point.
             const quoteItemsData = {
                 // OSA LOT 2.0 Traffic Management Items
-                // Note: "2 Way Lights (40mph≥)" corresponds to TM03 in the document.
-                // "Lane Closure (40mph≥)" corresponds to TM08.
-                // "Pre Cone" also gets I&A Invoice.
-                TM03: { code: "TM03", description: "Traffic control (two-way signals) road speed above 40mph", price: 400, onInvoice: true, onAfp: true, has12hrVariant: "TM3A", specialAction: "I&A Invoice" },
-                TM3A: { code: "TM3A", description: "Traffic control (two-way signals) road speed above 40mph additional 12 Hours", price: 30, onInvoice: true, onAfp: true },
+                TM03_GE_TBA: { code: "TBA", description: "Traffic control (two-way signals) road speed ≥ 40mph (TBA Rates)", price: 0, onInvoice: true, onAfp: false, has12hrVariant: "TM3A_GE_TBA", specialAction: "I&A Invoice" },
+                TM3A_GE_TBA: { code: "TBA", description: "Traffic control (two-way signals) road speed ≥ 40mph additional 12 Hours (TBA Rates)", price: 0, onInvoice: true, onAfp: false },
+                TM03_LT: { code: "TBA", description: "Traffic control (two-way signals) road speed < 40mph (TBA Rates)", price: 0, onInvoice: true, onAfp: false, has12hrVariant: "TM3A_LT" },
+                TM3A_LT: { code: "TBA", description: "Traffic control (two-way signals) road speed < 40mph additional 12 Hours (TBA Rates)", price: 0, onInvoice: true, onAfp: false },
+                
                 TM04: { code: "TM04", description: "Traffic control (three-way signals)", price: 440, onInvoice: true, onAfp: true, has12hrVariant: "TM4A" },
                 TM4A: { code: "TM4A", description: "Traffic control (three-way signals) additional 12 hours", price: 40, onInvoice: true, onAfp: true },
                 TM05: { code: "TM05", description: "Traffic control (four way signals or above)", price: 470, onInvoice: true, onAfp: true, has12hrVariant: "TM5A" },
                 TM5A: { code: "TM5A", description: "Traffic control (four way signals or above) additional 12 hours", price: 50, onInvoice: true, onAfp: true },
-                BUS_SUS: { code: "TBA", description: "Bus Stop Suspension (TM Type) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true, has12hrVariant: "BUS_SUS_12HR" }, // Conflict with bssCheckbox
+                
+                BUS_SUS: { code: "TBA", description: "Bus Stop Suspension (TM Type) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true, has12hrVariant: "BUS_SUS_12HR" }, 
                 BUS_SUS_12HR: { code: "TBA", description: "Bus Stop Suspension (TM Type) additional 12 hours - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
                 FOOT_CLOS: { code: "TBA", description: "Footpath Closure (TM Type) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true, has12hrVariant: "FOOT_CLOS_12HR" },
                 FOOT_CLOS_12HR: { code: "TBA", description: "Footpath Closure (TM Type) additional 12 hours - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
-                TM08_GE: { code: "TM08", description: "Lane closure (Dual Carriageway or Motorway >=40mph)", price: 845, onInvoice: true, onAfp: false, has12hrVariant: "TM8A_GE", specialAction: "I&A Invoice" }, // For >=40mph
-                TM8A_GE: { code: "TM8A", description: "Lane closure (Dual Carriageway or Motorway >=40mph) additional 12 hours", price: 845, onInvoice: true, onAfp: false },
-                TM08_LT: { code: "TM08", description: "Lane closure (Dual Carriageway or Motorway <40mph)", price: 845, onInvoice: true, onAfp: false, has12hrVariant: "TM8A_LT" }, // For <40mph - Invoice Only
+                
+                TM08_GE: { code: "TM08", description: "Lane closure (Dual Carriageway or Motorway ≥40mph)", price: 845, onInvoice: true, onAfp: false, has12hrVariant: "TM8A_GE", specialAction: "I&A Invoice" }, 
+                TM8A_GE: { code: "TM8A", description: "Lane closure (Dual Carriageway or Motorway ≥40mph) additional 12 hours", price: 845, onInvoice: true, onAfp: false },
+                TM08_LT: { code: "TM08", description: "Lane closure (Dual Carriageway or Motorway <40mph)", price: 845, onInvoice: true, onAfp: false, has12hrVariant: "TM8A_LT" }, 
                 TM8A_LT: { code: "TM8A", description: "Lane closure (Dual Carriageway or Motorway <40mph) additional 12 hours", price: 845, onInvoice: true, onAfp: false },
-                TM10_PC: { code: "TM10", description: "Temporary signalised pedestrian crossing initial 12 hours synthetic (Ped Crossing Only TM)", price: 225, onInvoice: true, onAfp: true, has12hrVariant: "TMA0_PC" }, // Conflict with pedSetsCheckbox
+                
+                TM10_PC: { code: "TM10", description: "Temporary signalised pedestrian crossing initial 12 hours synthetic (Ped Crossing Only TM)", price: 225, onInvoice: true, onAfp: true, has12hrVariant: "TMA0_PC" }, 
                 TMA0_PC: { code: "TMA0", description: "Temporary signalised pedestrian additional 12 hours (Ped Crossing Only TM)", price: 25, onInvoice: true, onAfp: true },
+                
                 PRE_CONE: { code: "TBA", description: "Pre Cone (TM Type) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true, has12hrVariant: "PRE_CONE_12HR", specialAction: "I&A Invoice" },
                 PRE_CONE_12HR: { code: "TBA", description: "Pre Cone (TM Type) additional 12 hours - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
-                TM09: { code: "TM09", description: "Road Closure (With Diversion Route)", price: 650, onInvoice: true, onAfp: false, has12hrVariant: "TM9A" }, // Invoice only
+                
+                TM09: { code: "TM09", description: "Road Closure (With Diversion Route)", price: 650, onInvoice: true, onAfp: false, has12hrVariant: "TM9A" }, 
                 TM9A: { code: "TM9A", description: "Road Closure (With Diversion Route) additional 12 hours", price: 30, onInvoice: true, onAfp: false },
                 TM22_RC_NTR: { code: "TM22", description: "Road Closure NTR", price: 495, onInvoice: true, onAfp: true, has12hrVariant: "TM22_RC_NTR_12HR" },
                 TM22_RC_NTR_12HR: { code: "TBA", description: "Road Closure NTR additional 12 hours - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
+                
                 TM19: { code: "TM19", description: "Stop & Go 2 Operative Manual Control", price: 495, onInvoice: true, onAfp: true, has12hrVariant: "TM19_12HR" },
                 TM19_12HR: { code: "TBA", description: "Stop & Go 2 Operative Manual Control additional 12 hours - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
                 TM20: { code: "TM20", description: "Stop & Go 3 Operative Manual Control", price: 585, onInvoice: true, onAfp: true, has12hrVariant: "TM20_12HR" },
                 TM20_12HR: { code: "TBA", description: "Stop & Go 3 Operative Manual Control additional 12 hours - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
                 TM21: { code: "TM21", description: "Stop & Go 4 Operative Manual Control", price: 675, onInvoice: true, onAfp: true, has12hrVariant: "TM21_12HR" },
                 TM21_12HR: { code: "TBA", description: "Stop & Go 4 Operative Manual Control additional 12 hours - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
-                TM16_PLAN: { code: "TM16", description: "CAD Drawing - Over 40mph inc Multiway Lights (TM Plan only)", price: 70.20, onInvoice: true, onAfp: true }, // Conflict with additionalTmPlanCheckbox
-                TM13: { code: "TM13", description: "Temporary carriageway closure TO15", price: 690, onInvoice: true, onAfp: false }, // Invoice only
+                
+                TM16_PLAN: { code: "TM16", description: "CAD Drawing - Over 40mph inc Multiway Lights (TM Plan only)", price: 70.20, onInvoice: true, onAfp: true }, 
+                TM13: { code: "TM13", description: "Temporary carriageway closure TO15", price: 690, onInvoice: true, onAfp: false }, 
                 TM22_TO15_NTR: { code: "TM22", description: "TO15 NTR", price: 495, onInvoice: true, onAfp: true },
 
                 // Additional Requirements
                 TM11: { code: "TM11", description: "Labour only for Manual control of signalised Traffic Management", price: 23.50, onInvoice: true, onAfp: true },
-                TM14: { code: "TM14", description: "Out of Hours attendance for Traffic Management", price: 27.50, onInvoice: true, onAfp: false }, // Invoice only
+                TM14: { code: "TM14", description: "Out of Hours attendance for Traffic Management", price: 27.50, onInvoice: true, onAfp: false }, 
                 TM10_PedSet: { code: "TM10", description: "Temporary signalised pedestrian crossing initial 12 hours synthetic (Ped Sets)", price: 225, onInvoice: true, onAfp: true, has12hrVariant: "TMA0_PedSet" },
                 TMA0_PedSet: { code: "TMA0", description: "Temporary signalised pedestrian additional 12 hours (Ped Sets)", price: 25, onInvoice: true, onAfp: true },
                 TM16_ADD: { code: "TM16", description: "Additional TM Plan (CAD Drawing - Over 40mph inc Multiway Lights)", price: 70.20, onInvoice: true, onAfp: true },
                 SPEC_SIGNS: { code: "TBA", description: "Special Signs - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
-                BSS_ADD: { code: "TBA", description: "BSS (Additional Requirement) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
+                BSS_ADD: { code: "TBA", description: "Bus Stop Suspension (Additional Requirement) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
 
                 // Emergency Fee
                 TM15: { code: "TM15", description: "Emergency Call Out Fee", price: 90, onInvoice: false, onAfp: true },
             };
 
+            // Function to enforce mutual exclusivity for checkbox groups
             function handleExclusivity(checkboxes, currentCheckbox) {
                 checkboxes.forEach(cb => {
                     if (cb !== currentCheckbox) cb.checked = false;
                 });
             }
 
+            // Event listeners for exclusive groups (Contract Type, Traffic Management)
             [...contractTypeCheckboxes, ...trafficManagementCheckboxes].forEach(groupMember => {
                 groupMember.addEventListener('change', () => {
                     if (groupMember.checked) {
@@ -308,10 +324,16 @@
                 });
             });
 
-            [manualControlCheckbox, oohCheckbox, pedSetsCheckbox, additionalTmPlanCheckbox, specialSignsCheckbox, bssCheckbox, moreThan12HoursCheckbox, emergencyCheckbox].forEach(checkbox => {
+            // Event listeners for non-exclusive additional requirements and duration/urgency checkboxes
+            [
+                manualControlCheckbox, oohCheckbox, pedSetsCheckbox, 
+                additionalTmPlanCheckbox, specialSignsCheckbox, bssCheckbox, 
+                moreThan12HoursCheckbox, emergencyCheckbox 
+            ].forEach(checkbox => {
                 checkbox.addEventListener('change', updateOutput);
             });
             
+            // Function to get selected value from a checkbox group
             function getSelectedValue(checkboxGroup) {
                 for (const checkbox of checkboxGroup) {
                     if (checkbox.checked) return checkbox.value;
@@ -319,9 +341,11 @@
                 return null;
             }
 
+            // Function to generate and display tables for invoice and AFP items
             function generateTable(containerElement, title, items) {
-                containerElement.innerHTML = '';
+                containerElement.innerHTML = ''; // Clear previous content
                 if (items.length === 0) return;
+                // Deduplicate items based on code and description (simple deduplication)
                 const uniqueItems = items.reduce((acc, current) => {
                     const x = acc.find(item => item.code === current.code && item.description === current.description);
                     if (!x) return acc.concat([current]);
@@ -344,25 +368,26 @@
                 containerElement.innerHTML = tableHtml;
             }
 
+            // Function to manage conflicts between TM types and Additional Requirements
             function manageConflicts(selectedTMValue) {
-                // Reset all conflicting additional requirements first
+                // Reset all potentially conflicting additional requirements first
                 [additionalTmPlanCheckbox, bssCheckbox, pedSetsCheckbox].forEach(cb => {
                     cb.disabled = false;
-                    // cb.parentElement.classList.remove('opacity-50', 'cursor-not-allowed'); // Using Tailwind's :disabled pseudo-class now
                 });
 
                 if (selectedTMValue === "TM Plan only") {
-                    additionalTmPlanCheckbox.checked = false;
+                    additionalTmPlanCheckbox.checked = false; // Uncheck if conflicting TM is selected
                     additionalTmPlanCheckbox.disabled = true;
                 } else if (selectedTMValue === "Bus Stop Suspension") {
-                    bssCheckbox.checked = false;
+                    bssCheckbox.checked = false; // Uncheck if conflicting TM is selected
                     bssCheckbox.disabled = true;
                 } else if (selectedTMValue === "Ped Crossing Only") {
-                    pedSetsCheckbox.checked = false;
+                    pedSetsCheckbox.checked = false; // Uncheck if conflicting TM is selected
                     pedSetsCheckbox.disabled = true;
                 }
             }
             
+            // Main function to update the output based on selections
             function updateOutput() {
                 const selectedContractType = getSelectedValue(contractTypeCheckboxes);
                 const selectedTrafficManagement = getSelectedValue(trafficManagementCheckboxes);
@@ -371,28 +396,31 @@
 
                 let invoiceItems = [];
                 let afpItems = [];
-                let additionalNotes = []; // For bullet points
+                let additionalNotes = []; 
                 let mainMessage = "Please make a selection from Contract Type and Traffic Management categories.";
 
+                // Clear previous outputs
                 invoiceTableContainer.innerHTML = '';
                 afpTableContainer.innerHTML = '';
                 additionalNotesContainer.innerHTML = '';
 
-                // Manage conflicts for additional items
+                // Manage conflicts for additional items based on selected TM
                 manageConflicts(selectedTrafficManagement);
 
-
                 if (selectedContractType && selectedTrafficManagement) {
-                    mainMessage = ""; 
+                    mainMessage = ""; // Reset main message, will be built based on findings
                     let baseItemCodes = []; 
-                    let selectedTmItemData = null; // To store the data object of the selected TM
+                    let selectedTmItemData = null; // To store the data object of the selected TM for specialAction
 
                     if (selectedContractType === "OSA") {
+                        // OSA Specific Logic for Traffic Management
                         switch (selectedTrafficManagement) {
-                            case "2 Way Lights (40mph≥)": baseItemCodes.push("TM03"); break;
+                            case "2 Way Lights (40mph≥)": baseItemCodes.push("TM03_GE_TBA"); break;
+                            case "2 Way Lights (40mph<)": baseItemCodes.push("TM03_LT"); break;
                             case "3 Way Lights": baseItemCodes.push("TM04"); break;
                             case "4 Way Lights": baseItemCodes.push("TM05"); break;
-                            case "5 Way Lights": baseItemCodes.push("TM03", "TM04"); break;
+                            case "5 Way Lights": baseItemCodes.push("TM03_GE_TBA", "TM04"); // Uses GE TBA for 2-way part
+                                break;
                             case "Bus Stop Suspension": baseItemCodes.push("BUS_SUS"); break;
                             case "Footpath Closure": baseItemCodes.push("FOOT_CLOS"); break;
                             case "Lane Closure (40mph≥)": baseItemCodes.push("TM08_GE"); break;
@@ -409,10 +437,14 @@
                             case "TO15 NTR": baseItemCodes.push("TM22_TO15_NTR"); break;
                         }
 
+                        // Process base TM items
                         baseItemCodes.forEach((code, index) => {
                             const item = quoteItemsData[code];
                             if (item) {
-                                if (index === 0) selectedTmItemData = item; // Capture the first (or primary) TM item data
+                                // For determining specialAction, prioritize the first item or specific items like TM03_GE_TBA in 5-way
+                                if (index === 0 && baseItemCodes.length === 1) selectedTmItemData = item; 
+                                if (!selectedTmItemData && item.specialAction) selectedTmItemData = item;
+
                                 if (item.onInvoice) invoiceItems.push(item);
                                 if (item.onAfp) afpItems.push(item);
                                 if (isMoreThan12Hours && item.has12hrVariant && quoteItemsData[item.has12hrVariant]) {
@@ -422,47 +454,49 @@
                                 }
                             }
                         });
+                        // Explicit check for 5-way lights special action from TM03_GE_TBA
+                        if (selectedTrafficManagement === "5 Way Lights" && quoteItemsData["TM03_GE_TBA"]?.specialAction) {
+                            selectedTmItemData = quoteItemsData["TM03_GE_TBA"];
+                        }
                         
                         // OSA Additional Requirements
                         const additionalReqMap = {
-                            manualControl: 'TM11',
-                            ooh: 'TM14',
-                            pedSets: 'TM10_PedSet',
-                            additionalTmPlan: 'TM16_ADD',
-                            specialSigns: 'SPEC_SIGNS',
-                            bss: 'BSS_ADD'
+                            manualControl: 'TM11', ooh: 'TM14', pedSets: 'TM10_PedSet',
+                            additionalTmPlan: 'TM16_ADD', specialSigns: 'SPEC_SIGNS', bss: 'BSS_ADD'
                         };
                         [manualControlCheckbox, oohCheckbox, pedSetsCheckbox, additionalTmPlanCheckbox, specialSignsCheckbox, bssCheckbox].forEach(cb => {
-                            if (cb.checked && !cb.disabled) { // Only process if checked AND not disabled by conflict
+                            if (cb.checked && !cb.disabled) { 
                                 const itemCode = additionalReqMap[cb.id];
                                 const item = quoteItemsData[itemCode];
                                 if (item) {
                                     if (item.onInvoice) invoiceItems.push(item);
                                     if (item.onAfp) afpItems.push(item);
-                                    // Note: 12hr variants for additional requirements are handled if item.has12hrVariant exists
                                     if (isMoreThan12Hours && item.has12hrVariant && quoteItemsData[item.has12hrVariant]) {
                                         const twelveHrAddItem = quoteItemsData[item.has12hrVariant];
                                         if(twelveHrAddItem.onInvoice) invoiceItems.push(twelveHrAddItem);
                                         if(twelveHrAddItem.onAfp) afpItems.push(twelveHrAddItem);
                                     }
-                                    if (item.additionalNote === "I&A Invoice") { // Check for special note for bullet points
+                                    if (item.additionalNote === "I&A Invoice") { 
                                         additionalNotes.push(`${item.description} requires an I&A Invoice.`);
                                     }
                                 }
                             }
                         });
 
-                    } else { // ONSA or Fibre Build - TBA placeholders
-                        const itemKey = `${selectedContractType}_${selectedTrafficManagement.replace(/[^a-zA-Z0-9≥<]/g, '')}_TBA`;
+                    } else { // ONSA or Fibre Build - Use TBA placeholders
+                        const tmValueClean = selectedTrafficManagement.replace(/[^a-zA-Z0-9]/g, ''); // Basic clean for key
+                        const itemKey = `${selectedContractType}_${tmValueClean}_TBA`;
                         const itemKey12Hr = `${itemKey}_12HR`;
+                        // Ensure these TBA items are defined if not already in quoteItemsData for this run
                         if (!quoteItemsData[itemKey]) {
                             quoteItemsData[itemKey] = { code: "TBA", description: `${selectedContractType} - ${selectedTrafficManagement} (Details TBA)`, price: 0, onInvoice: true, onAfp: true, has12hrVariant: itemKey12Hr };
                         }
                         if (!quoteItemsData[itemKey12Hr]) {
                              quoteItemsData[itemKey12Hr] = { code: "TBA", description: `${selectedContractType} - ${selectedTrafficManagement} additional 12 hours (Details TBA)`, price: 0, onInvoice: true, onAfp: true };
                         }
-                        selectedTmItemData = quoteItemsData[itemKey]; // Capture TBA item data
+                        selectedTmItemData = quoteItemsData[itemKey]; // Capture TBA item data for potential specialAction (though unlikely for TBA)
                         baseItemCodes.push(itemKey);
+
                         // Process base items and additional requirements similarly for ONSA/Fibre
                          baseItemCodes.forEach(code => {
                             const item = quoteItemsData[code];
@@ -480,7 +514,7 @@
                         Object.entries({manualControl: 'TM11', ooh: 'TM14', pedSets: 'TM10_PedSet', additionalTmPlan: 'TM16_ADD', specialSigns: 'SPEC_SIGNS', bss: 'BSS_ADD'})
                             .forEach(([cbId, itemCode]) => {
                                 const cbElement = document.getElementById(cbId);
-                                if (cbElement && cbElement.checked && !cbElement.disabled) {
+                                if (cbElement && cbElement.checked && !cbElement.disabled) { // Check if checkbox exists and is checked and not disabled
                                      const item = quoteItemsData[itemCode];
                                      if (item) {
                                         if (item.onInvoice) invoiceItems.push(item);
@@ -498,6 +532,7 @@
                             });
                     }
 
+                    // Handle Emergency Fee - always on AFP
                     if (isEmergency && quoteItemsData.TM15) {
                         if (!afpItems.find(item => item.code === "TM15" && item.description === quoteItemsData.TM15.description)) {
                            afpItems.push(quoteItemsData.TM15);
@@ -520,6 +555,7 @@
                         mainMessage = "No specific quote actions identified for these selections.";
                     }
                     
+                    // Generate tables if items exist
                     if (anInvoiceIsNeeded) generateTable(invoiceTableContainer, "Invoice Items", invoiceItems);
                     if (anAfpIsNeeded) generateTable(afpTableContainer, "AFP Items", afpItems);
 
@@ -536,6 +572,7 @@
                 }
                 outputMessageElement.textContent = mainMessage;
             }
+            // Initial call to set up the page state (e.g., conflicts)
             updateOutput();
         });
     </script>
