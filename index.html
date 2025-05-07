@@ -202,7 +202,7 @@
                     </div>
                     <div>
                         <input type="checkbox" id="onsa" name="contractType" value="ONSA" class="checkbox-input">
-                        <label for="onsa" class="checkbox-label">ONSA</label>
+                        <label for="onsa" class="checkbox-label">ONSA/ OSA</label> 
                     </div>
                     <div>
                         <input type="checkbox" id="fibre" name="contractType" value="Fibre Build" class="checkbox-input">
@@ -383,8 +383,14 @@
                 TM16_ADD: { code: "TM16", description: "Additional TM Plan (CAD Drawing - Over 40mph inc Multiway Lights)", price: 70.20, onInvoice: true, onAfp: true },
                 SPEC_SIGNS: { code: "TBA", description: "Special Signs - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true }, 
                 BSS_ADD: { code: "TBA", description: "Bus Stop Suspension (Additional Requirement) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true }, 
-                TM15: { code: "TM15", description: "Emergency Call Out Fee", price: 90, onInvoice: true, onAfp: true }, // OSA Emergency Fee
+                TM15: { code: "TM15", description: "Emergency Call Out Fee", price: 90, onInvoice: true, onAfp: true }, 
 
+                // ONSA Specific Items
+                ONSA_2_WAY_UPTO: { 
+                    code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false, 
+                    specialAction: "I&A Invoice", has12hrVariant: "ONSA_2_WAY_UPTO_12HR" 
+                },
+                ONSA_2_WAY_UPTO_12HR: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false },
                 ONSA_2_WAY_OVER_40: {
                     onInvoice: true, onAfp: true, 
                     standardItems: [
@@ -431,6 +437,10 @@
                         { code: "MTS19", description: "4 Way TM Daily Hire Second Day Onwards", price: 45 }
                     ]
                 },
+                 ONSA_BUS_SUSPENSION: { 
+                    onInvoice: true, onAfp: true,
+                    standardItems: [{ code: "MTS71", description: "Temporary Bus Stop Only", price: 145 }]
+                },
                 ONSA_FOOTPATH_CLOSURE: {
                     onInvoice: true, onAfp: true,
                     standardItems: [
@@ -440,6 +450,11 @@
                         { code: "MTS42", description: "Footpath Closure & Diversion Up to 60 Signs, Delivery, Collection, Setup & Hire, Out Of Hours", price: 375 }
                     ]
                 },
+                 ONSA_LANE_CLOSURE_UPTO: { 
+                    code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false, specialAction: "I&A Invoice",
+                    has12hrVariant: "ONSA_LANE_CLOSURE_UPTO_12HR" 
+                 },
+                 ONSA_LANE_CLOSURE_UPTO_12HR: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false },
                  ONSA_LANE_CLOSURE_OVER_40: { 
                     onInvoice: true, onAfp: true,
                     standardItems: [
@@ -806,7 +821,7 @@
                         });
 
 
-                    } else if (selectedContractType === "ONSA") {
+                    } else if (selectedContractType === "ONSA" || selectedContractType === "Fibre Build") { 
                         isSpecialActionIA = false; 
                         switch (selectedTrafficManagement) {
                             case "2 Way Lights (Up to 40mph)": baseItemKey = "ONSA_2_WAY_UPTO"; break; 
@@ -864,9 +879,18 @@
 
                         } else if (quoteItemsData[baseItemKey]) {
                             tmDataForProcessing = quoteItemsData[baseItemKey];
-                            itemsToProcess = isOoh && tmDataForProcessing.oohItems ? tmDataForProcessing.oohItems : tmDataForProcessing.standardItems;
-                            if (isMoreThanOneDay && tmDataForProcessing.secondDayItems) { 
-                                itemsToProcess = itemsToProcess.concat(tmDataForProcessing.secondDayItems);
+                            if (tmDataForProcessing.specialAction === "I&A Invoice") {
+                                // For I&A types under ONSA/Fibre, directly push the item if it's defined (like ONSA_2_WAY_UPTO)
+                                // This ensures it's treated as a single item, not a collection from standardItems
+                                itemsToProcess.push(tmDataForProcessing); 
+                                if (isMoreThanOneDay && tmDataForProcessing.has12hrVariant && quoteItemsData[tmDataForProcessing.has12hrVariant]) {
+                                    itemsToProcess.push(quoteItemsData[tmDataForProcessing.has12hrVariant]);
+                                }
+                            } else { 
+                                itemsToProcess = isOoh && tmDataForProcessing.oohItems ? tmDataForProcessing.oohItems : tmDataForProcessing.standardItems;
+                                if (isMoreThanOneDay && tmDataForProcessing.secondDayItems) { 
+                                    itemsToProcess = (itemsToProcess || []).concat(tmDataForProcessing.secondDayItems);
+                                }
                             }
                             isSpecialActionIA = tmDataForProcessing.specialAction === "I&A Invoice"; 
 
@@ -898,22 +922,8 @@
                              invoiceItems = invoiceItems.filter(item => item.code !== "MTS62" && item.code !== "MTS54");
                              afpItems = afpItems.filter(item => item.code !== "MTS62" && item.code !== "MTS54");
                         }
-
-
-                    } else { // Fibre Build 
-                        const tmValueClean = selectedTrafficManagement.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '');
-                        const itemKey = `${selectedContractType}_${tmValueClean}_TBA`;
-                        if (!quoteItemsData[itemKey]) {
-                            quoteItemsData[itemKey] = { 
-                                standardItems: [{ code: "TBA", description: `${selectedContractType} - ${selectedTrafficManagement} (Details TBA)`, price: 0 }],
-                                onInvoice: true, onAfp: true 
-                            };
-                        }
-                        isSpecialActionIA = false; 
-                        const tmData = quoteItemsData[itemKey];
-                        if (tmData.onInvoice) invoiceItems.push(...tmData.standardItems);
-                        if (tmData.onAfp) afpItems.push(...tmData.standardItems);
                     }
+
 
                     // Apply Emergency Fee only for OSA
                     if (isEmergency && selectedContractType === "OSA" && quoteItemsData.TM15) {
@@ -957,11 +967,17 @@
                             afpActionIcon.classList.add('active');
                         }
                     }
+
+                    // Activate SLIP icon for Fibre Build
+                    if (selectedContractType === "Fibre Build") {
+                        requestSlipActionIcon.classList.remove('inactive');
+                        requestSlipActionIcon.classList.add('active');
+                    }
                     
                     if (anInvoiceIsNeeded) generateTable(invoiceTableContainer, "Invoice Items", invoiceItems);
                     
-                    if (isSpecialActionIA && selectedContractType === "OSA") { 
-                        if (isEmergency && anAfpIsNeeded) { 
+                    if (isSpecialActionIA && (selectedContractType === "OSA" || selectedContractType === "ONSA" || selectedContractType === "Fibre Build")) { 
+                        if (isEmergency && selectedContractType === "OSA" && anAfpIsNeeded) { 
                             generateTable(afpTableContainer, "AFP Items (Emergency Only)", afpItems.filter(item => item.code === "TM15"));
                         } else {
                             afpTableContainer.innerHTML = ''; 
