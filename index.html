@@ -211,7 +211,7 @@
                     <hr class="my-3 border-gray-300"> 
                     <div>
                         <input type="checkbox" id="moreThan12Hours" name="duration" value="More than 12 hours" class="checkbox-input">
-                        <label for="moreThan12Hours" class="checkbox-label">Is it more than 12 hours?</label>
+                        <label for="moreThan12Hours" class="checkbox-label">More than 1 day (ONSA)/ 12 hours+ (OSA)?</label>
                     </div>
                     <div>
                         <input type="checkbox" id="emergency" name="urgency" value="Emergency" class="checkbox-input emergency-checkbox">
@@ -234,7 +234,11 @@
                     <div><input type="checkbox" id="tmLaneClosureOver" name="trafficManagement" value="Lane Closure (Over 40mph)" class="checkbox-input"><label for="tmLaneClosureOver" class="checkbox-label">Lane Closure (Over 40mph)</label></div>
                     <div><input type="checkbox" id="tmPedCrossingOnly" name="trafficManagement" value="Ped Crossing Only" class="checkbox-input"><label for="tmPedCrossingOnly" class="checkbox-label">Ped Crossing Only</label></div>
                     <div><input type="checkbox" id="tmPreCone" name="trafficManagement" value="Pre Cone" class="checkbox-input"><label for="tmPreCone" class="checkbox-label">Pre Cone</label></div>
-                    <div><input type="checkbox" id="tmRoadClosure" name="trafficManagement" value="Road closure" class="checkbox-input"><label for="tmRoadClosure" class="checkbox-label">Road closure</label></div>
+                    
+                    <div><input type="checkbox" id="tmRoadClosure25" name="trafficManagement" value="Road Closure Up to 25 Signs" class="checkbox-input"><label for="tmRoadClosure25" class="checkbox-label">Road Closure Up to 25 Signs</label></div>
+                    <div><input type="checkbox" id="tmRoadClosure60" name="trafficManagement" value="Road Closure Up to 60 signs" class="checkbox-input"><label for="tmRoadClosure60" class="checkbox-label">Road Closure Up to 60 signs</label></div>
+                    <div><input type="checkbox" id="tmRoadClosure85" name="trafficManagement" value="Road Closure Up to 85 signs" class="checkbox-input"><label for="tmRoadClosure85" class="checkbox-label">Road Closure Up to 85 signs</label></div>
+                    
                     <div><input type="checkbox" id="tmRoadClosureNTR" name="trafficManagement" value="Road Closure NTR" class="checkbox-input"><label for="tmRoadClosureNTR" class="checkbox-label">Road Closure NTR</label></div>
                     <div><input type="checkbox" id="tmStopGo2Way" name="trafficManagement" value="Stop and Go 2 Way" class="checkbox-input"><label for="tmStopGo2Way" class="checkbox-label">Stop and Go 2 Way</label></div>
                     <div><input type="checkbox" id="tmStopGo3Way" name="trafficManagement" value="Stop and Go 3 Way" class="checkbox-input"><label for="tmStopGo3Way" class="checkbox-label">Stop and Go 3 Way</label></div>
@@ -325,11 +329,11 @@
 
 
             const quoteItemsData = {
-                // Renamed keys and updated descriptions for 2 Way Lights and Lane Closures
+                // OSA LOT 2.0 Traffic Management Items
                 TM03_UPTO_TBA: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false, has12hrVariant: "TM3A_UPTO_TBA", specialAction: "I&A Invoice" },
                 TM3A_UPTO_TBA: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false },
-                TM03_OVER: { code: "TBA", description: "Traffic control (two-way signals) road speed Over 40mph (TBA Rates) - Invoice + AFP", price: 0, onInvoice: true, onAfp: true, has12hrVariant: "TM3A_OVER" }, // Was TM03_LT
-                TM3A_OVER: { code: "TBA", description: "Traffic control (two-way signals) road speed Over 40mph additional 12 Hours (TBA Rates) - Invoice + AFP", price: 0, onInvoice: true, onAfp: true }, // Was TM3A_LT
+                TM03_OVER: { code: "TM03", description: "Traffic control (two-way signals) road speed above 40mph", price: 400, onInvoice: true, onAfp: true, has12hrVariant: "TM3A_OVER" }, 
+                TM3A_OVER: { code: "TM3A", description: "Traffic control (two-way signals) road speed above 40mph additional 12 Hours", price: 30, onInvoice: true, onAfp: true }, 
                 
                 TM04: { code: "TM04", description: "Traffic control (three-way signals)", price: 440, onInvoice: true, onAfp: true, has12hrVariant: "TM4A" },
                 TM4A: { code: "TM4A", description: "Traffic control (three-way signals) additional 12 hours", price: 40, onInvoice: true, onAfp: true },
@@ -338,13 +342,13 @@
                 
                 BUS_SUS: { code: "TBA", description: "Bus Stop Suspension (TM Type) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true, has12hrVariant: "BUS_SUS_12HR" }, 
                 BUS_SUS_12HR: { code: "TBA", description: "Bus Stop Suspension (TM Type) additional 12 hours - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
-                FOOT_CLOS: { code: "TBA", description: "Footpath Closure (TM Type) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true, has12hrVariant: "FOOT_CLOS_12HR" },
+                FOOT_CLOS: { code: "TBA", description: "Footpath Closure (TM Type) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true, has12hrVariant: "FOOT_CLOS_12HR" }, // OSA uses TBA
                 FOOT_CLOS_12HR: { code: "TBA", description: "Footpath Closure (TM Type) additional 12 hours - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
                 
-                TM08_UPTO: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false, has12hrVariant: "TM8A_UPTO", specialAction: "I&A Invoice" }, // Was TM08_GE
-                TM8A_UPTO: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false }, // Was TM8A_GE
-                TM08_OVER: { code: "TM08", description: "Lane closure (Dual Carriageway or Motorway Over 40mph)", price: 845, onInvoice: true, onAfp: false, has12hrVariant: "TM8A_OVER" },  // Was TM08_LT
-                TM8A_OVER: { code: "TM8A", description: "Lane closure (Dual Carriageway or Motorway Over 40mph) additional 12 hours", price: 845, onInvoice: true, onAfp: false }, // Was TM8A_LT
+                TM08_UPTO: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false, has12hrVariant: "TM8A_UPTO", specialAction: "I&A Invoice" }, 
+                TM8A_UPTO: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false },
+                TM08_OVER: { code: "TM08", description: "Lane closure (Dual Carriageway or Motorway Over 40mph)", price: 845, onInvoice: true, onAfp: true, has12hrVariant: "TM8A_OVER" },  
+                TM8A_OVER: { code: "TM8A", description: "Lane closure (Dual Carriageway or Motorway Over 40mph) additional 12 hours", price: 845, onInvoice: true, onAfp: true }, 
                 
                 TM10_PC: { code: "TM10", description: "Temporary signalised pedestrian crossing initial 12 hours synthetic (Ped Crossing Only TM)", price: 225, onInvoice: true, onAfp: true, has12hrVariant: "TMA0_PC" }, 
                 TMA0_PC: { code: "TMA0", description: "Temporary signalised pedestrian additional 12 hours (Ped Crossing Only TM)", price: 25, onInvoice: true, onAfp: true },
@@ -367,14 +371,215 @@
                 TM16_PLAN: { code: "TM16", description: "CAD Drawing - Over 40mph inc Multiway Lights (TM Plan only)", price: 70.20, onInvoice: true, onAfp: true }, 
                 TM13: { code: "TM13", description: "Temporary carriageway closure TO15", price: 690, onInvoice: true, onAfp: false }, 
                 TM22_TO15_NTR: { code: "TM22", description: "TO15 NTR", price: 495, onInvoice: true, onAfp: true },
+
+                // Additional Requirements - OSA
                 TM11: { code: "TM11", description: "Labour only for Manual control of signalised Traffic Management", price: 23.50, onInvoice: true, onAfp: true },
                 TM14: { code: "TM14", description: "Out of Hours attendance for Traffic Management", price: 27.50, onInvoice: true, onAfp: false }, 
                 TM10_PedSet: { code: "TM10", description: "Temporary signalised pedestrian crossing initial 12 hours synthetic (Ped Sets)", price: 225, onInvoice: true, onAfp: true, has12hrVariant: "TMA0_PedSet" },
                 TMA0_PedSet: { code: "TMA0", description: "Temporary signalised pedestrian additional 12 hours (Ped Sets)", price: 25, onInvoice: true, onAfp: true },
                 TM16_ADD: { code: "TM16", description: "Additional TM Plan (CAD Drawing - Over 40mph inc Multiway Lights)", price: 70.20, onInvoice: true, onAfp: true },
-                SPEC_SIGNS: { code: "TBA", description: "Special Signs - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
-                BSS_ADD: { code: "TBA", description: "Bus Stop Suspension (Additional Requirement) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
+                SPEC_SIGNS: { code: "TBA", description: "Special Signs - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true }, // OSA Specific
+                BSS_ADD: { code: "TBA", description: "Bus Stop Suspension (Additional Requirement) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true }, // OSA Specific
+                
+                // Emergency Fee (Universal)
                 TM15: { code: "TM15", description: "Emergency Call Out Fee", price: 90, onInvoice: false, onAfp: true },
+
+                // ONSA Specific Items
+                ONSA_2_WAY_OVER_40: {
+                    onInvoice: true, onAfp: true, 
+                    standardItems: [
+                        { code: "MTS11.1", description: "2 Way TM, Delivery, Setup & Hire, In Hours (First Day) - Above 40MPH to 60MPH", price: 230 },
+                        { code: "MTS11.2", description: "2 Way TM Dismantle, Collection, In Hours (First Day) - Above 40MPH to 60MPH", price: 160 }
+                    ],
+                    oohItems: [
+                        { code: "MTS11.4", description: "2 Way TM, Delivery, Setup & Hire, Out of Hours (First Day) - Above 40MPH to 60MPH", price: 285 },
+                        { code: "MTS11.5", description: "2 Way TM Dismantle, Collection, Out of Hours (First Day) - Above 40MPH to 60MPH", price: 195 } // Corrected Code
+                    ],
+                    secondDayItems: [
+                        { code: "MTS11.3", description: "2 Way TM Daily Hire Second Day Onwards - Above 40MPH to 60MPH", price: 30 }
+                    ]
+                },
+                ONSA_3_WAY: {
+                    onInvoice: true, onAfp: true,
+                    standardItems: [
+                        { code: "MTS12", description: "3 Way TM, Delivery, Setup & Hire, In Hours (First Day)", price: 230 },
+                        { code: "MTS13", description: "3 Way TM Dismantle, Collection, In Hours (First Day)", price: 145 },
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75} 
+                    ],
+                    oohItems: [
+                        { code: "MTS15", description: "3 Way TM, Delivery, Setup & Hire, Out of Hours (First Day)", price: 310 },
+                        { code: "MTS16", description: "3 Way TM Dismantle, Collection, Out of Hours (First Day)", price: 205 },
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75}
+                    ],
+                    secondDayItems: [
+                        { code: "MTS14", description: "3 Way TM Daily Hire Second Day Onwards", price: 35 }
+                    ]
+                },
+                ONSA_4_WAY: {
+                    onInvoice: true, onAfp: true,
+                    standardItems: [
+                        { code: "MTS17", description: "4 Way TM, Delivery, Setup & Hire, In Hours (First Day)", price: 255 },
+                        { code: "MTS18", description: "4 Way TM Dismantle, Collection, In Hours (First Day)", price: 145 },
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75}
+                    ],
+                    oohItems: [
+                        { code: "MTS20", description: "4 Way TM, Delivery, Setup & Hire, Out of Hours (First Day)", price: 335 },
+                        { code: "MTS21", description: "4 Way TM Dismantle, Collection, Out of Hours (First Day)", price: 220 },
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75}
+                    ],
+                    secondDayItems: [
+                        { code: "MTS19", description: "4 Way TM Daily Hire Second Day Onwards", price: 45 }
+                    ]
+                },
+                ONSA_FOOTPATH_CLOSURE: {
+                    onInvoice: true, onAfp: true,
+                    standardItems: [
+                        { code: "MTS41", description: "Footpath Closure & Diversion Up to 60 Signs, Delivery, Collection, Setup & Hire, In Hours (Weekly)", price: 325 }
+                    ],
+                    oohItems: [
+                        { code: "MTS42", description: "Footpath Closure & Diversion Up to 60 Signs, Delivery, Collection, Setup & Hire, Out Of Hours", price: 375 }
+                    ]
+                },
+                ONSA_PED_CROSSING: {
+                    onInvoice: true, onAfp: true,
+                    standardItems: [
+                        { code: "MTS25", description: "Pedestrian Crossing Set Delivery, Collection, Setup & Hire, In Hours - Per 2-Way Crossing", price: 475 }
+                    ],
+                    oohItems: [
+                        { code: "MTS26", description: "Pedestrian Crossing Set Delivery, Collection, Setup & Hire, Out of Hrs - Per 2-Way Crossing", price: 550 }
+                    ]
+                },
+                ONSA_RC_25: {
+                    onInvoice: true, onAfp: false, 
+                    standardItems: [
+                        { code: "MTS27", description: "Road Closure & Diversion Up to 25 Signs, Delivery, Setup & Hire, In Hours (First Day)", price: 240 },
+                        { code: "MTS28", description: "Road Closure & Diversion Up to 25 Signs, Dismantle, Collection & Hire, In Hours (First Day)", price: 145 },
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75}
+                    ],
+                    oohItems: [
+                        { code: "MTS30", description: "Road Closure & Diversion Up to 25 Signs, Delivery, Setup & Hire, Out of Hours (First Day)", price: 325 },
+                        { code: "MTS31", description: "Road Closure & Diversion Up to 25 Signs, Dismantle, Collection & Hire, Out of Hours (First Day)", price: 205 },
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75}
+                    ],
+                    secondDayItems: [
+                        { code: "MTS29", description: "Road Closure & Diversion Up to 25 Signs, Daily Hire Second Day Onwards", price: 40 }
+                    ]
+                },
+                ONSA_RC_60: {
+                    onInvoice: true, onAfp: false,
+                    standardItems: [
+                        { code: "MTS32", description: "Road Closure & Diversion Up to 60 Signs, Delivery, Setup & Hire, In Hours (First Day)", price: 323 },
+                        { code: "MTS33", description: "Road Closure & Diversion Up to 60 Signs, Dismantle, Collection & Hire, In Hours (First Day)", price: 188 },
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75}
+                    ],
+                    oohItems: [
+                        { code: "MTS35", description: "Road Closure & Diversion Up to 60 Signs, Delivery, Setup & Hire, Out of Hours (First Day)", price: 457 }, 
+                        { code: "MTS36", description: "Road Closure & Diversion Up to 60 Signs, Dismantle, Collection & Hire, Out of Hours (First Day)", price: 223 }, 
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75}
+                    ],
+                    secondDayItems: [
+                        { code: "MTS34", description: "Road Closure & Diversion Up to 60 Signs, Daily Hire Second Day Onwards", price: 57 } 
+                    ]
+                },
+                ONSA_RC_85: { 
+                    onInvoice: true, onAfp: false,
+                    standardItems: [
+                        { code: "MTS32", description: "Road Closure & Diversion Up to 60 Signs, Delivery, Setup & Hire, In Hours (First Day)", price: 323 },
+                        { code: "MTS33", description: "Road Closure & Diversion Up to 60 Signs, Dismantle, Collection & Hire, In Hours (First Day)", price: 188 },
+                        { code: "MTS27", description: "Road Closure & Diversion Up to 25 Signs, Delivery, Setup & Hire, In Hours (First Day)", price: 240 },
+                        { code: "MTS28", description: "Road Closure & Diversion Up to 25 Signs, Dismantle, Collection & Hire, In Hours (First Day)", price: 145 },
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75}
+                    ],
+                    oohItems: [
+                        { code: "MTS35", description: "Road Closure & Diversion Up to 60 Signs, Delivery, Setup & Hire, Out of Hours (First Day)", price: 457 },
+                        { code: "MTS36", description: "Road Closure & Diversion Up to 60 Signs, Dismantle, Collection & Hire, Out of Hours (First Day)", price: 223 },
+                        { code: "MTS30", description: "Road Closure & Diversion Up to 25 Signs, Delivery, Setup & Hire, Out of Hours (First Day)", price: 325 },
+                        { code: "MTS31", description: "Road Closure & Diversion Up to 25 Signs, Dismantle, Collection & Hire, Out of Hours (First Day)", price: 205 },
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75}
+                    ],
+                    secondDayItems: [
+                        { code: "MTS34", description: "Road Closure & Diversion Up to 60 Signs, Daily Hire Second Day Onwards", price: 57 },
+                        { code: "MTS29", description: "Road Closure & Diversion Up to 25 Signs, Daily Hire Second Day Onwards", price: 40 }
+                    ]
+                },
+                ONSA_RC_NTR: {
+                    onInvoice: true, onAfp: true,
+                    standardItems: [ 
+                        { code: "MTS54 x 2", description: "Advance Warning Sign for Road Closures & Specials.", price: 60 },
+                        { code: "MTS58", description: "TM Operative hours on site.", price: 25 },
+                        { code: "MTS62", description: "Letterdrop", price: 155 },
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75 }
+                    ]
+                },
+                ONSA_STOP_GO_2: {
+                    onInvoice: true, onAfp: true,
+                    standardItems: [
+                        { code: "MTS 2.1", description: "Stop & Go 2 Operative Manual Control - Above 40MPH to 60 MPH. Including travel to & from site", price: 425 }
+                    ],
+                    oohItems: [
+                        { code: "MTS 2.2", description: "Stop & Go 2 Operative Manual Control Out of Hours - Above 40MPH to 60 MPH. Including travel to & from site.", price: 540 }
+                    ]
+                },
+                ONSA_STOP_GO_3: {
+                    onInvoice: true, onAfp: true,
+                    standardItems: [
+                        { code: "MTS 3", description: "Stop & Go 3 Operative Manual Control. Including travel to & from site.", price: 565 }
+                    ],
+                    oohItems: [
+                        { code: "MTS 4", description: "Stop & Go 3 Operative Manual Control Out of Hours. Including travel to & from site.", price: 705 }
+                    ]
+                },
+                ONSA_STOP_GO_4: {
+                    onInvoice: true, onAfp: true,
+                    standardItems: [
+                        { code: "MTS 5", description: "Stop & Go 4 Operative Manual Control. Including travel to & from site.", price: 660 }
+                    ],
+                    oohItems: [
+                        { code: "MTS 6", description: "Stop & Go 4 Operative Manual Control Out of Hours. Including travel to & from site.", price: 830 }
+                    ]
+                },
+                ONSA_TM_PLAN_ONLY: {
+                    onInvoice: true, onAfp: true,
+                    standardItems: [
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75 }
+                    ]
+                },
+                ONSA_TO15: {
+                    onInvoice: true, onAfp: false, 
+                    standardItems: [
+                        { code: "MTS77", description: "TO15 - Traffic control by \"Temporary Obstruction\" sign in line with all NRSWA requirements", price: 975 },
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75 }
+                    ]
+                },
+                ONSA_TO15_NTR: {
+                    onInvoice: true, onAfp: true,
+                    standardItems: [
+                        { code: "MTS54 x 2", description: "Advance Warning Sign for Road Closures & Specials. Evidence of use required.", price: 60 },
+                        { code: "MTS58", description: "TM Operative hours on site", price: 25 },
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75 }
+                    ]
+                },
+                PED_LIGHTS_ONSA: { 
+                    onInvoice: true, onAfp: true,
+                    standardItems: [{ code: "MTS25", description: "Pedestrian Crossing Set Delivery, Collection, Setup & Hire, In Hours - Per 2-Way Crossing", price: 475 }],
+                    oohItems: [{ code: "MTS26", description: "Pedestrian Crossing Set Delivery, Collection, Setup & Hire, Out of Hrs - Per 2-Way Crossing", price: 550 }]
+                },
+                ADD_TM_PLAN_ONSA: { 
+                    onInvoice: true, onAfp: true,
+                    standardItems: [{ code: "MTS76", description: "TM Drawings & Planning", price: 75 }]
+                },
+                SPECIAL_SIGNS_ONSA: { 
+                    onInvoice: true, onAfp: true,
+                    standardItems: [{ code: "MTS54", description: "Advance Warning Sign for Road Closures & Specials. Evidence of use required.", price: 60 }]
+                },
+                MAN_CON_ONSA: { 
+                    onInvoice: true, onAfp: true,
+                    standardItems: [{ code: "MTS58", description: "TM Operative hours on site", price: 25 }]
+                },
+                BSS_ADD_ONSA: { 
+                    onInvoice: true, onAfp: true,
+                    standardItems: [{ code: "TBA", description: "Bus Stop Suspension (Additional Requirement ONSA) - Details TBA", price: 0 }]
+                },
             };
 
             function handleExclusivity(checkboxes, currentCheckbox) {
@@ -453,7 +658,8 @@
             function updateOutput() {
                 const selectedContractType = getSelectedValue(contractTypeCheckboxes);
                 const selectedTrafficManagement = getSelectedValue(trafficManagementCheckboxes);
-                const isMoreThan12Hours = moreThan12HoursCheckbox.checked;
+                const isMoreThanOneDay = moreThan12HoursCheckbox.checked; 
+                const isOoh = oohCheckbox.checked; 
                 const isEmergency = emergencyCheckbox.checked;
 
                 let invoiceItems = [];
@@ -473,61 +679,70 @@
                 iaInvoiceActionIcon.classList.remove('active');
                 actionIconsPlaceholder.classList.remove('hidden');
 
-
                 manageConflicts(selectedTrafficManagement);
 
                 if (selectedContractType && selectedTrafficManagement) {
                     mainMessageText = ""; 
-                    let baseItemCodes = []; 
-                    let tempSelectedTmItemData = null; 
-
+                    let baseItemKey = null; 
+                    let osaBaseItemCodes = []; 
+                    
                     if (selectedContractType === "OSA") {
-                        // Updated case values to match new HTML values
                         switch (selectedTrafficManagement) {
-                            case "2 Way Lights (Up to 40mph)": baseItemCodes.push("TM03_UPTO_TBA"); break;
-                            case "2 Way Lights (Over 40mph)": baseItemCodes.push("TM03_OVER"); break;
-                            case "3 Way Lights": baseItemCodes.push("TM04"); break;
-                            case "4 Way Lights": baseItemCodes.push("TM05"); break;
-                            case "5 Way Lights": baseItemCodes.push("TM03_UPTO_TBA", "TM04"); break; // Assumes Up to 40 for 2-way part
-                            case "Bus Stop Suspension": baseItemCodes.push("BUS_SUS"); break;
-                            case "Footpath Closure": baseItemCodes.push("FOOT_CLOS"); break;
-                            case "Lane Closure (Up to 40mph)": baseItemCodes.push("TM08_UPTO"); break;
-                            case "Lane Closure (Over 40mph)": baseItemCodes.push("TM08_OVER"); break;
-                            case "Ped Crossing Only": baseItemCodes.push("TM10_PC"); break;
-                            case "Pre Cone": baseItemCodes.push("PRE_CONE"); break;
-                            case "Road closure": baseItemCodes.push("TM09"); break;
-                            case "Road Closure NTR": baseItemCodes.push("TM22_RC_NTR"); break;
-                            case "Stop and Go 2 Way": baseItemCodes.push("TM19"); break;
-                            case "Stop and Go 3 Way": baseItemCodes.push("TM20"); break;
-                            case "Stop and Go 4 Way": baseItemCodes.push("TM21"); break;
-                            case "TM Plan only": baseItemCodes.push("TM16_PLAN"); break;
-                            case "TO15": baseItemCodes.push("TM13"); break;
-                            case "TO15 NTR": baseItemCodes.push("TM22_TO15_NTR"); break;
+                            case "2 Way Lights (Up to 40mph)": osaBaseItemCodes.push("TM03_UPTO_TBA"); break;
+                            case "2 Way Lights (Over 40mph)": osaBaseItemCodes.push("TM03_OVER"); break;
+                            case "3 Way Lights": osaBaseItemCodes.push("TM04"); break;
+                            case "4 Way Lights": osaBaseItemCodes.push("TM05"); break;
+                            case "5 Way Lights": osaBaseItemCodes.push("TM03_OVER", "TM04"); break; 
+                            case "Bus Stop Suspension": osaBaseItemCodes.push("BUS_SUS"); break;
+                            case "Footpath Closure": osaBaseItemCodes.push("FOOT_CLOS"); break;
+                            case "Lane Closure (Up to 40mph)": osaBaseItemCodes.push("TM08_UPTO"); break;
+                            case "Lane Closure (Over 40mph)": osaBaseItemCodes.push("TM08_OVER"); break;
+                            case "Ped Crossing Only": osaBaseItemCodes.push("TM10_PC"); break;
+                            case "Pre Cone": osaBaseItemCodes.push("PRE_CONE"); break;
+                            case "Road Closure Up to 25 Signs":
+                            case "Road Closure Up to 60 signs":
+                            case "Road Closure Up to 85 signs":
+                                osaBaseItemCodes.push("TM09"); 
+                                break;
+                            case "Road Closure NTR": osaBaseItemCodes.push("TM22_RC_NTR"); break;
+                            case "Stop and Go 2 Way": osaBaseItemCodes.push("TM19"); break;
+                            case "Stop and Go 3 Way": osaBaseItemCodes.push("TM20"); break;
+                            case "Stop and Go 4 Way": osaBaseItemCodes.push("TM21"); break;
+                            case "TM Plan only": osaBaseItemCodes.push("TM16_PLAN"); break;
+                            case "TO15": osaBaseItemCodes.push("TM13"); break;
+                            case "TO15 NTR": osaBaseItemCodes.push("TM22_TO15_NTR"); break;
                         }
 
-                        if (baseItemCodes.length > 0) {
-                            if (selectedTrafficManagement === "5 Way Lights" && quoteItemsData["TM03_UPTO_TBA"]?.specialAction === "I&A Invoice") {
-                                tempSelectedTmItemData = quoteItemsData["TM03_UPTO_TBA"];
-                            } else {
-                                for (const code of baseItemCodes) {
+                        let tempSelectedTmItemData = null;
+                        if (osaBaseItemCodes.length > 0) {
+                             if (selectedTrafficManagement === "5 Way Lights") {
+                                 if (quoteItemsData["TM03_OVER"]?.specialAction === "I&A Invoice") { 
+                                    tempSelectedTmItemData = quoteItemsData["TM03_OVER"];
+                                 } else if (quoteItemsData["TM03_UPTO_TBA"]?.specialAction === "I&A Invoice") { 
+                                    tempSelectedTmItemData = quoteItemsData["TM03_UPTO_TBA"];
+                                 } else {
+                                     tempSelectedTmItemData = quoteItemsData[osaBaseItemCodes.find(code => quoteItemsData[code]?.specialAction === "I&A Invoice")] || quoteItemsData[osaBaseItemCodes[0]];
+                                 }
+                            } else { 
+                                for (const code of osaBaseItemCodes) {
                                     if (quoteItemsData[code]?.specialAction === "I&A Invoice") {
                                         tempSelectedTmItemData = quoteItemsData[code];
                                         break; 
                                     }
                                 }
-                                if (!tempSelectedTmItemData) tempSelectedTmItemData = quoteItemsData[baseItemCodes[0]];
+                                if (!tempSelectedTmItemData) tempSelectedTmItemData = quoteItemsData[osaBaseItemCodes[0]];
                             }
                         }
                         isSpecialActionIA = tempSelectedTmItemData?.specialAction === "I&A Invoice";
 
-                        baseItemCodes.forEach(code => {
+                        osaBaseItemCodes.forEach(code => {
                             const item = quoteItemsData[code];
                             if (item) {
                                 if (item.onInvoice) invoiceItems.push(item);
                                 if (item.onAfp && !isSpecialActionIA) { 
                                     afpItems.push(item);
                                 }
-                                if (isMoreThan12Hours && item.has12hrVariant && quoteItemsData[item.has12hrVariant]) {
+                                if (isMoreThanOneDay && item.has12hrVariant && quoteItemsData[item.has12hrVariant]) { 
                                     const twelveHrItem = quoteItemsData[item.has12hrVariant];
                                     if (twelveHrItem.onInvoice) invoiceItems.push(twelveHrItem);
                                     if (twelveHrItem.onAfp && !isSpecialActionIA) {
@@ -537,25 +752,21 @@
                             }
                         });
                         
-                        const additionalReqMap = {
+                        const osaAdditionalReqMap = {
                             manualControl: 'TM11', ooh: 'TM14', pedSets: 'TM10_PedSet',
                             additionalTmPlan: 'TM16_ADD', specialSigns: 'SPEC_SIGNS', bss: 'BSS_ADD'
                         };
-                        [manualControlCheckbox, oohCheckbox, pedSetsCheckbox, additionalTmPlanCheckbox, specialSignsCheckbox, bssCheckbox].forEach(cb => {
-                            if (cb.checked && !cb.disabled) { 
-                                const itemCode = additionalReqMap[cb.id];
+                        Object.entries(osaAdditionalReqMap).forEach(([cbId, itemCode]) => {
+                            const cbElement = document.getElementById(cbId);
+                            if (cbElement && cbElement.checked && !cbElement.disabled) {
                                 const item = quoteItemsData[itemCode];
                                 if (item) {
                                     if (item.onInvoice) invoiceItems.push(item);
-                                    if (item.onAfp && !isSpecialActionIA) { 
-                                        afpItems.push(item);
-                                    }
-                                    if (isMoreThan12Hours && item.has12hrVariant && quoteItemsData[item.has12hrVariant]) {
+                                    if (item.onAfp && !isSpecialActionIA) afpItems.push(item);
+                                     if (isMoreThanOneDay && item.has12hrVariant && quoteItemsData[item.has12hrVariant]) {
                                         const twelveHrAddItem = quoteItemsData[item.has12hrVariant];
                                         if(twelveHrAddItem.onInvoice) invoiceItems.push(twelveHrAddItem);
-                                        if(twelveHrAddItem.onAfp && !isSpecialActionIA) { 
-                                           afpItems.push(twelveHrAddItem);
-                                        }
+                                        if(twelveHrAddItem.onAfp && !isSpecialActionIA) afpItems.push(twelveHrAddItem);
                                     }
                                     if (item.additionalNote === "I&A Invoice") { 
                                         additionalNotes.push(`${item.description} requires an I&A Invoice.`);
@@ -564,50 +775,102 @@
                             }
                         });
 
-                    } else { // ONSA or Fibre Build
-                        const tmValueClean = selectedTrafficManagement.replace(/[^a-zA-Z0-9]/g, '');
-                        const itemKey = `${selectedContractType}_${tmValueClean}_TBA`;
-                        const itemKey12Hr = `${itemKey}_12HR`;
-                        if (!quoteItemsData[itemKey]) {
-                            quoteItemsData[itemKey] = { code: "TBA", description: `${selectedContractType} - ${selectedTrafficManagement} (Details TBA)`, price: 0, onInvoice: true, onAfp: true, has12hrVariant: itemKey12Hr };
-                        }
-                        if (!quoteItemsData[itemKey12Hr]) {
-                             quoteItemsData[itemKey12Hr] = { code: "TBA", description: `${selectedContractType} - ${selectedTrafficManagement} additional 12 hours (Details TBA)`, price: 0, onInvoice: true, onAfp: true };
-                        }
-                        isSpecialActionIA = false; 
-                        baseItemCodes.push(itemKey);
 
-                         baseItemCodes.forEach(code => {
-                            const item = quoteItemsData[code];
-                            if (item) {
-                                if (item.onInvoice) invoiceItems.push(item);
-                                if (item.onAfp) afpItems.push(item); 
-                                if (isMoreThan12Hours && item.has12hrVariant && quoteItemsData[item.has12hrVariant]) {
-                                    const twelveHrItem = quoteItemsData[item.has12hrVariant];
-                                    if (twelveHrItem.onInvoice) invoiceItems.push(twelveHrItem);
-                                    if (twelveHrItem.onAfp) afpItems.push(twelveHrItem);
+                    } else if (selectedContractType === "ONSA") {
+                        isSpecialActionIA = false; 
+                        switch (selectedTrafficManagement) {
+                            case "2 Way Lights (Over 40mph)": baseItemKey = "ONSA_2_WAY_OVER_40"; break;
+                            case "3 Way Lights": baseItemKey = "ONSA_3_WAY"; break;
+                            case "4 Way Lights": baseItemKey = "ONSA_4_WAY"; break;
+                            case "5 Way Lights": baseItemKey = "ONSA_5_WAY"; break; 
+                            case "Footpath Closure": baseItemKey = "ONSA_FOOTPATH_CLOSURE"; break;
+                            case "Ped Crossing Only": baseItemKey = "ONSA_PED_CROSSING"; break;
+                            case "Road Closure Up to 25 Signs": baseItemKey = "ONSA_RC_25"; break;
+                            case "Road Closure Up to 60 signs": baseItemKey = "ONSA_RC_60"; break;
+                            case "Road Closure Up to 85 signs": baseItemKey = "ONSA_RC_85"; break;
+                            case "Road Closure NTR": baseItemKey = "ONSA_RC_NTR"; break;
+                            case "Stop and Go 2 Way": baseItemKey = "ONSA_STOP_GO_2"; break;
+                            case "Stop and Go 3 Way": baseItemKey = "ONSA_STOP_GO_3"; break;
+                            case "Stop and Go 4 Way": baseItemKey = "ONSA_STOP_GO_4"; break;
+                            case "TM Plan only": baseItemKey = "ONSA_TM_PLAN_ONLY"; break;
+                            case "TO15": baseItemKey = "ONSA_TO15"; break;
+                            case "TO15 NTR": baseItemKey = "ONSA_TO15_NTR"; break;
+                            default: 
+                                const tmValueClean = selectedTrafficManagement.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '');
+                                baseItemKey = `${selectedContractType}_${tmValueClean}_TBA`; 
+                                if (!quoteItemsData[baseItemKey]) { 
+                                    quoteItemsData[baseItemKey] = { 
+                                        standardItems: [{ code: "TBA", description: `${selectedContractType} - ${selectedTrafficManagement} (Details TBA)`, price: 0 }],
+                                        onInvoice: true, onAfp: true 
+                                    };
+                                }
+                                break;
+                        }
+                        
+                        let itemsToProcess = [];
+                        if (baseItemKey === "ONSA_5_WAY") { 
+                            const twoWayData = quoteItemsData["ONSA_2_WAY_OVER_40"];
+                            const threeWayData = quoteItemsData["ONSA_3_WAY"];
+                            const itemsTwoWay = isOoh && twoWayData.oohItems ? twoWayData.oohItems : twoWayData.standardItems;
+                            const itemsThreeWay = isOoh && threeWayData.oohItems ? threeWayData.oohItems : threeWayData.standardItems;
+                            itemsToProcess.push(...(itemsTwoWay || []));
+                            itemsToProcess.push(...(itemsThreeWay || []));
+
+                            if (isMoreThanOneDay) {
+                                if(twoWayData.secondDayItems) itemsToProcess.push(...twoWayData.secondDayItems);
+                                if(threeWayData.secondDayItems) itemsToProcess.push(...threeWayData.secondDayItems);
+                            }
+                            // For 5-way, set overall onInvoice/onAfp based on components
+                            if (twoWayData.onInvoice || threeWayData.onInvoice) itemsToProcess.forEach(item => { if(item) invoiceItems.push(item); });
+                            if (twoWayData.onAfp || threeWayData.onAfp) itemsToProcess.forEach(item => { if(item) afpItems.push(item); });
+
+
+                        } else if (quoteItemsData[baseItemKey]) {
+                            const tmData = quoteItemsData[baseItemKey];
+                            itemsToProcess = isOoh && tmData.oohItems ? tmData.oohItems : tmData.standardItems;
+                            if (isMoreThanOneDay && tmData.secondDayItems) {
+                                itemsToProcess = itemsToProcess.concat(tmData.secondDayItems);
+                            }
+                            if (tmData.onInvoice) invoiceItems.push(...itemsToProcess);
+                            if (tmData.onAfp) afpItems.push(...itemsToProcess);
+                        }
+
+                        // ONSA Additional Requirements
+                        const onsaAdditionalReqMap = {
+                            manualControl: 'MAN_CON_ONSA', 
+                            pedSets: 'PED_LIGHTS_ONSA',
+                            additionalTmPlan: 'ADD_TM_PLAN_ONSA', 
+                            specialSigns: 'SPECIAL_SIGNS_ONSA', 
+                            bss: 'BSS_ADD_ONSA'
+                        };
+                        Object.entries(onsaAdditionalReqMap).forEach(([cbId, itemKeySuffix]) => {
+                            const cbElement = document.getElementById(cbId);
+                            if (cbElement && cbElement.checked && !cbElement.disabled) {
+                                const onsaItemData = quoteItemsData[itemKeySuffix];
+                                if (onsaItemData) {
+                                    const items = (isOoh && onsaItemData.oohItems) ? onsaItemData.oohItems : onsaItemData.standardItems;
+                                    if (items) {
+                                        if (onsaItemData.onInvoice) invoiceItems.push(...items);
+                                        if (onsaItemData.onAfp) afpItems.push(...items);
+                                    }
                                 }
                             }
                         });
-                        Object.entries({manualControl: 'TM11', ooh: 'TM14', pedSets: 'TM10_PedSet', additionalTmPlan: 'TM16_ADD', specialSigns: 'SPEC_SIGNS', bss: 'BSS_ADD'})
-                            .forEach(([cbId, itemCode]) => {
-                                const cbElement = document.getElementById(cbId);
-                                if (cbElement && cbElement.checked && !cbElement.disabled) { 
-                                     const item = quoteItemsData[itemCode];
-                                     if (item) {
-                                        if (item.onInvoice) invoiceItems.push(item);
-                                        if (item.onAfp) afpItems.push(item);
-                                        if (isMoreThan12Hours && item.has12hrVariant && quoteItemsData[item.has12hrVariant]) {
-                                            const twelveHrAddItem = quoteItemsData[item.has12hrVariant];
-                                            if(twelveHrAddItem.onInvoice) invoiceItems.push(twelveHrAddItem);
-                                            if(twelveHrAddItem.onAfp) afpItems.push(twelveHrAddItem);
-                                        }
-                                        if (item.additionalNote === "I&A Invoice") {
-                                            additionalNotes.push(`${item.description} requires an I&A Invoice.`);
-                                        }
-                                     }
-                                }
-                            });
+
+
+                    } else { // Fibre Build 
+                        const tmValueClean = selectedTrafficManagement.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '');
+                        const itemKey = `${selectedContractType}_${tmValueClean}_TBA`;
+                        if (!quoteItemsData[itemKey]) {
+                            quoteItemsData[itemKey] = { 
+                                standardItems: [{ code: "TBA", description: `${selectedContractType} - ${selectedTrafficManagement} (Details TBA)`, price: 0 }],
+                                onInvoice: true, onAfp: true 
+                            };
+                        }
+                        isSpecialActionIA = false; 
+                        const tmData = quoteItemsData[itemKey];
+                        if (tmData.onInvoice) invoiceItems.push(...tmData.standardItems);
+                        if (tmData.onAfp) afpItems.push(...tmData.standardItems);
                     }
 
                     if (isEmergency && quoteItemsData.TM15) {
@@ -623,12 +886,10 @@
                     const anInvoiceIsNeeded = invoiceItems.length > 0;
                     const anAfpIsNeeded = afpItems.length > 0;
 
-                    // Activate/Deactivate Icons
                     if (isSpecialActionIA) {
                         iaInvoiceActionIcon.classList.remove('inactive');
                         iaInvoiceActionIcon.classList.add('active');
-                        // Ensure Invoice icon is inactive for I&A Invoice
-                        invoiceActionIcon.classList.add('inactive');
+                        invoiceActionIcon.classList.add('inactive'); 
                         invoiceActionIcon.classList.remove('active');
                         
                         if (isEmergency && anAfpIsNeeded) { 
@@ -678,8 +939,6 @@
                     } else {
                         actionIconsPlaceholder.classList.remove('hidden'); 
                     }
-
-
                 } else {
                      actionIconsPlaceholder.classList.remove('hidden'); 
                 }
