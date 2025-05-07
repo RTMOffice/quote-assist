@@ -84,29 +84,58 @@
 
         /* Specific styles for "Is emergency?" checkbox and label */
         .emergency-checkbox {
-            border-color: #c32033; /* Custom border color for emergency checkbox */
+            border-color: #c32033; 
         }
         .emergency-checkbox:checked {
-            background-color: #c32033; /* Custom background for checked emergency checkbox */
-            border-color: #c32033; /* Custom border for checked emergency checkbox */
+            background-color: #c32033; 
+            border-color: #c32033; 
         }
-        /* Ensure checkmark is white on custom background */
         .emergency-checkbox:checked::before {
             box-shadow: inset 1em 1em #fff; 
         }
-         .emergency-checkbox:focus { /* Custom focus for emergency */
-            box-shadow: 0 0 0 2px #fca5a5; /* Lighter red for focus, e.g., Tailwind red-300 */
+         .emergency-checkbox:focus { 
+            box-shadow: 0 0 0 2px #fca5a5; 
         }
-
         .emergency-label {
-            color: #c32033 !important; /* Custom text color for emergency label, !important to override general checked style if needed */
+            color: #c32033 !important; 
             text-transform: uppercase;
-            font-weight: 600; /* Make it a bit bolder */
+            font-weight: 600; 
         }
-        /* If emergency checkbox is checked, keep the label red and bold */
         .emergency-checkbox:checked + .emergency-label {
              color: #c32033 !important;
              font-weight: 600;
+        }
+
+        /* Action Icon Styles */
+        .action-icon-container {
+            display: flex;
+            justify-content: space-around; /* Distribute icons evenly */
+            align-items: flex-start; /* Align items to the top */
+            padding: 1rem 0;
+            margin-bottom: 1rem; /* Space before tables */
+            border-bottom: 1px solid #e5e7eb; /* Separator */
+        }
+        .action-icon {
+            text-align: center;
+            transition: opacity 0.3s ease-in-out;
+            flex: 1; /* Allow icons to take up space */
+            max-width: 100px; /* Max width for each icon block */
+        }
+        .action-icon img {
+            width: 30px;
+            height: 30px;
+            margin: 0 auto 0.25rem auto; /* Center image and add space below */
+        }
+        .action-icon p {
+            font-size: 0.75rem; /* text-xs */
+            font-weight: 500; /* medium */
+            color: #4b5563; /* gray-600 */
+        }
+        .action-icon.inactive {
+            opacity: 0.25;
+        }
+        .action-icon.active {
+            opacity: 1;
         }
 
 
@@ -248,7 +277,21 @@
         </div>
 
         <div id="outputContainer" class="bg-blue-50 p-6 rounded-lg shadow-inner">
-            <p id="outputMessage" class="text-lg sm:text-xl text-blue-700 font-medium text-center mb-4">Please make a selection from Contract Type and Traffic Management categories.</p>
+            <p id="outputMessage" class="text-sm text-gray-600 text-center mb-4">Please make a selection from Contract Type and Traffic Management categories.</p>
+            <div id="actionIconsPlaceholder" class="action-icon-container">
+                 <div id="invoiceActionIcon" class="action-icon inactive">
+                    <img src="https://www.svgrepo.com/show/6974/one.svg" alt="Invoice Icon">
+                    <p>Invoice</p>
+                </div>
+                <div id="afpActionIcon" class="action-icon inactive">
+                    <img src="https://www.svgrepo.com/show/12680/two.svg" alt="AFP Icon">
+                    <p>AFP</p>
+                </div>
+                <div id="iaInvoiceActionIcon" class="action-icon inactive">
+                    <img src="https://www.svgrepo.com/show/7916/three.svg" alt="I&A Invoice Icon">
+                    <p>I&A Invoice</p>
+                </div>
+            </div>
             <div id="invoiceTableContainer" class="mb-6"></div>
             <div id="afpTableContainer" class="mb-6"></div>
             <div id="additionalNotesContainer" class="notes-section"></div>
@@ -274,6 +317,13 @@
             const invoiceTableContainer = document.getElementById('invoiceTableContainer');
             const afpTableContainer = document.getElementById('afpTableContainer');
             const additionalNotesContainer = document.getElementById('additionalNotesContainer');
+
+            // Action Icon References
+            const invoiceActionIcon = document.getElementById('invoiceActionIcon');
+            const afpActionIcon = document.getElementById('afpActionIcon');
+            const iaInvoiceActionIcon = document.getElementById('iaInvoiceActionIcon');
+            const actionIconsPlaceholder = document.getElementById('actionIconsPlaceholder');
+
 
             const quoteItemsData = {
                 // OSA LOT 2.0 Traffic Management Items
@@ -412,19 +462,28 @@
                 const isEmergency = emergencyCheckbox.checked;
 
                 let invoiceItems = [];
-                let afpItems = []; // Intentionally rebuild this array each time
+                let afpItems = []; 
                 let additionalNotes = []; 
-                let mainMessage = "Please make a selection from Contract Type and Traffic Management categories.";
+                let mainMessageText = "Please make a selection from Contract Type and Traffic Management categories.";
                 let isSpecialActionIA = false; 
 
+                // Reset visual states
                 invoiceTableContainer.innerHTML = '';
-                afpTableContainer.innerHTML = ''; // Clear AFP table at the start
+                afpTableContainer.innerHTML = ''; 
                 additionalNotesContainer.innerHTML = '';
+                invoiceActionIcon.classList.add('inactive');
+                invoiceActionIcon.classList.remove('active');
+                afpActionIcon.classList.add('inactive');
+                afpActionIcon.classList.remove('active');
+                iaInvoiceActionIcon.classList.add('inactive');
+                iaInvoiceActionIcon.classList.remove('active');
+                actionIconsPlaceholder.classList.remove('hidden'); // Show icons by default
+
 
                 manageConflicts(selectedTrafficManagement);
 
                 if (selectedContractType && selectedTrafficManagement) {
-                    mainMessage = ""; 
+                    mainMessageText = ""; // Clear default message
                     let baseItemCodes = []; 
                     let tempSelectedTmItemData = null; 
 
@@ -493,14 +552,13 @@
                                 const item = quoteItemsData[itemCode];
                                 if (item) {
                                     if (item.onInvoice) invoiceItems.push(item);
-                                    // For "I&A Invoice" TM type, only add emergency to AFP. Otherwise, add AFP-able additional reqs.
                                     if (item.onAfp && !isSpecialActionIA) { 
                                         afpItems.push(item);
                                     }
                                     if (isMoreThan12Hours && item.has12hrVariant && quoteItemsData[item.has12hrVariant]) {
                                         const twelveHrAddItem = quoteItemsData[item.has12hrVariant];
                                         if(twelveHrAddItem.onInvoice) invoiceItems.push(twelveHrAddItem);
-                                        if(twelveHrAddItem.onAfp && !isSpecialActionIA) { // Apply same AFP logic
+                                        if(twelveHrAddItem.onAfp && !isSpecialActionIA) { 
                                            afpItems.push(twelveHrAddItem);
                                         }
                                     }
@@ -521,7 +579,7 @@
                         if (!quoteItemsData[itemKey12Hr]) {
                              quoteItemsData[itemKey12Hr] = { code: "TBA", description: `${selectedContractType} - ${selectedTrafficManagement} additional 12 hours (Details TBA)`, price: 0, onInvoice: true, onAfp: true };
                         }
-                        isSpecialActionIA = false; // ONSA/Fibre Build are not "I&A Invoice" by default with TBA items
+                        isSpecialActionIA = false; 
                         baseItemCodes.push(itemKey);
 
                          baseItemCodes.forEach(code => {
@@ -557,49 +615,51 @@
                             });
                     }
 
-                    // Handle Emergency Fee - This will be the ONLY item in afpItems if isSpecialActionIA is true.
                     if (isEmergency && quoteItemsData.TM15) {
                         if (isSpecialActionIA) {
-                            afpItems = [quoteItemsData.TM15]; // For I&A, AFP only shows emergency
+                            afpItems = [quoteItemsData.TM15]; 
                         } else if (!afpItems.find(item => item.code === "TM15" && item.description === quoteItemsData.TM15.description)) {
-                           afpItems.push(quoteItemsData.TM15); // Otherwise, add to existing AFP items
+                           afpItems.push(quoteItemsData.TM15); 
                         }
                     } else if (isSpecialActionIA) {
-                        afpItems = []; // If I&A and no emergency, ensure afpItems is empty
+                        afpItems = []; 
                     }
                     
                     const anInvoiceIsNeeded = invoiceItems.length > 0;
-                    const anAfpIsNeeded = afpItems.length > 0; // This is now correctly determined
+                    const anAfpIsNeeded = afpItems.length > 0;
 
+                    // Activate/Deactivate Icons
                     if (isSpecialActionIA) {
-                        mainMessage = "You need to make an I&A Invoice.";
-                        // If it's an emergency, an AFP is still needed for the emergency item.
-                        // The main message remains "I&A Invoice", but the AFP table will show.
-                        if (isEmergency && anAfpIsNeeded) {
-                             // No change to main message, but AFP table will show.
+                        iaInvoiceActionIcon.classList.remove('inactive');
+                        iaInvoiceActionIcon.classList.add('active');
+                        if (anInvoiceIsNeeded) {
+                             invoiceActionIcon.classList.remove('inactive');
+                             invoiceActionIcon.classList.add('active');
                         }
-                    } else if (anInvoiceIsNeeded && anAfpIsNeeded) {
-                        mainMessage = "You need to make an Invoice and an AFP.";
-                    } else if (anInvoiceIsNeeded) {
-                        mainMessage = "You need to make an Invoice.";
-                    } else if (anAfpIsNeeded) { 
-                        mainMessage = "You need to make an AFP.";
+                        if (isEmergency && anAfpIsNeeded) { // AFP icon only active for emergency in I&A
+                            afpActionIcon.classList.remove('inactive');
+                            afpActionIcon.classList.add('active');
+                        }
                     } else {
-                        mainMessage = "No specific quote actions identified for these selections.";
+                        if (anInvoiceIsNeeded) {
+                            invoiceActionIcon.classList.remove('inactive');
+                            invoiceActionIcon.classList.add('active');
+                        }
+                        if (anAfpIsNeeded) {
+                            afpActionIcon.classList.remove('inactive');
+                            afpActionIcon.classList.add('active');
+                        }
                     }
                     
                     if (anInvoiceIsNeeded) generateTable(invoiceTableContainer, "Invoice Items", invoiceItems);
                     
-                    // AFP Table display logic:
-                    // If it's an I&A Invoice job, AFP table only shows if there's an emergency.
-                    // Otherwise (not I&A Invoice), AFP table shows if there are any AFP items.
                     if (isSpecialActionIA) {
-                        if (isEmergency && afpItems.length > 0) { // Only show AFP for emergency in I&A case
+                        if (isEmergency && anAfpIsNeeded) { 
                             generateTable(afpTableContainer, "AFP Items (Emergency Only)", afpItems);
                         } else {
-                            afpTableContainer.innerHTML = ''; // Explicitly clear if not emergency in I&A case
+                            afpTableContainer.innerHTML = ''; 
                         }
-                    } else if (anAfpIsNeeded) { // For non-I&A cases
+                    } else if (anAfpIsNeeded) { 
                         generateTable(afpTableContainer, "AFP Items", afpItems);
                     }
 
@@ -613,8 +673,21 @@
                         additionalNotesContainer.innerHTML = notesHtml;
                     }
 
+                    // If no icons were activated, show a message
+                    if (invoiceActionIcon.classList.contains('inactive') &&
+                        afpActionIcon.classList.contains('inactive') &&
+                        iaInvoiceActionIcon.classList.contains('inactive')) {
+                        mainMessageText = "No specific quote actions identified for these selections.";
+                         actionIconsPlaceholder.classList.remove('hidden'); // Ensure icons are visible even if all inactive
+                    } else {
+                        actionIconsPlaceholder.classList.remove('hidden'); // Ensure icons are visible
+                    }
+
+
+                } else {
+                     actionIconsPlaceholder.classList.remove('hidden'); // Ensure icons are visible for initial state
                 }
-                outputMessageElement.textContent = mainMessage;
+                outputMessageElement.textContent = mainMessageText; // Update the separate message element
             }
             updateOutput();
         });
