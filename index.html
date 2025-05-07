@@ -300,7 +300,7 @@
                 TM10_PC: { code: "TM10", description: "Temporary signalised pedestrian crossing initial 12 hours synthetic (Ped Crossing Only TM)", price: 225, onInvoice: true, onAfp: true, has12hrVariant: "TMA0_PC" }, 
                 TMA0_PC: { code: "TMA0", description: "Temporary signalised pedestrian additional 12 hours (Ped Crossing Only TM)", price: 25, onInvoice: true, onAfp: true },
                 
-                PRE_CONE: { code: "TBA", description: "Pre Cone (TM Type) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true, has12hrVariant: "PRE_CONE_12HR", specialAction: "I&A Invoice" },
+                PRE_CONE: { code: "TBA", description: "Pre Cone (TM Type) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true, has12hrVariant: "PRE_CONE_12HR", specialAction: "I&A Invoice" }, // Note: onAfp: true here, but specialAction will override for base TM
                 PRE_CONE_12HR: { code: "TBA", description: "Pre Cone (TM Type) additional 12 hours - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
                 
                 TM09: { code: "TM09", description: "Road Closure (With Diversion Route)", price: 650, onInvoice: true, onAfp: false, has12hrVariant: "TM9A" }, 
@@ -415,6 +415,7 @@
                 let afpItems = [];
                 let additionalNotes = []; 
                 let mainMessage = "Please make a selection from Contract Type and Traffic Management categories.";
+                let isSpecialActionIA = false; // Flag to check if the selected TM type has "I&A Invoice" special action
 
                 invoiceTableContainer.innerHTML = '';
                 afpTableContainer.innerHTML = '';
@@ -425,7 +426,7 @@
                 if (selectedContractType && selectedTrafficManagement) {
                     mainMessage = ""; 
                     let baseItemCodes = []; 
-                    let selectedTmItemData = null; 
+                    let tempSelectedTmItemData = null; // Used to determine isSpecialActionIA
 
                     if (selectedContractType === "OSA") {
                         switch (selectedTrafficManagement) {
@@ -433,8 +434,7 @@
                             case "2 Way Lights (40mph<)": baseItemCodes.push("TM03_LT"); break;
                             case "3 Way Lights": baseItemCodes.push("TM04"); break;
                             case "4 Way Lights": baseItemCodes.push("TM05"); break;
-                            case "5 Way Lights": baseItemCodes.push("TM03_GE_TBA", "TM04"); 
-                                break;
+                            case "5 Way Lights": baseItemCodes.push("TM03_GE_TBA", "TM04"); break;
                             case "Bus Stop Suspension": baseItemCodes.push("BUS_SUS"); break;
                             case "Footpath Closure": baseItemCodes.push("FOOT_CLOS"); break;
                             case "Lane Closure (40mph≥)": baseItemCodes.push("TM08_GE"); break;
@@ -451,25 +451,43 @@
                             case "TO15 NTR": baseItemCodes.push("TM22_TO15_NTR"); break;
                         }
 
-                        baseItemCodes.forEach((code, index) => {
+                        // Determine if the selected TM has a special "I&A Invoice" action
+                        if (baseItemCodes.length > 0) {
+                            if (selectedTrafficManagement === "5 Way Lights" && quoteItemsData["TM03_GE_TBA"]?.specialAction === "I&A Invoice") {
+                                tempSelectedTmItemData = quoteItemsData["TM03_GE_TBA"];
+                            } else {
+                                for (const code of baseItemCodes) {
+                                    if (quoteItemsData[code]?.specialAction === "I&A Invoice") {
+                                        tempSelectedTmItemData = quoteItemsData[code];
+                                        break; 
+                                    }
+                                }
+                                if (!tempSelectedTmItemData) tempSelectedTmItemData = quoteItemsData[baseItemCodes[0]]; // Fallback to first item if no special action found
+                            }
+                        }
+                        isSpecialActionIA = tempSelectedTmItemData?.specialAction === "I&A Invoice";
+
+                        // Process base TM items
+                        baseItemCodes.forEach(code => {
                             const item = quoteItemsData[code];
                             if (item) {
-                                if (index === 0 && baseItemCodes.length === 1) selectedTmItemData = item; 
-                                if (!selectedTmItemData && item.specialAction) selectedTmItemData = item;
-
                                 if (item.onInvoice) invoiceItems.push(item);
-                                if (item.onAfp) afpItems.push(item);
+                                // Only add to AFP if NOT an "I&A Invoice" TM type
+                                if (item.onAfp && !isSpecialActionIA) { 
+                                    afpItems.push(item);
+                                }
                                 if (isMoreThan12Hours && item.has12hrVariant && quoteItemsData[item.has12hrVariant]) {
                                     const twelveHrItem = quoteItemsData[item.has12hrVariant];
                                     if (twelveHrItem.onInvoice) invoiceItems.push(twelveHrItem);
-                                    if (twelveHrItem.onAfp) afpItems.push(twelveHrItem);
+                                    // Apply same AFP logic to 12hr variant
+                                    if (twelveHrItem.onAfp && !isSpecialActionIA) {
+                                        afpItems.push(twelveHrItem);
+                                    }
                                 }
                             }
                         });
-                        if (selectedTrafficManagement === "5 Way Lights" && quoteItemsData["TM03_GE_TBA"]?.specialAction) {
-                            selectedTmItemData = quoteItemsData["TM03_GE_TBA"];
-                        }
                         
+                        // OSA Additional Requirements (these are independent of the TM's specialAction for their own AFP status)
                         const additionalReqMap = {
                             manualControl: 'TM11', ooh: 'TM14', pedSets: 'TM10_PedSet',
                             additionalTmPlan: 'TM16_ADD', specialSigns: 'SPEC_SIGNS', bss: 'BSS_ADD'
@@ -480,7 +498,7 @@
                                 const item = quoteItemsData[itemCode];
                                 if (item) {
                                     if (item.onInvoice) invoiceItems.push(item);
-                                    if (item.onAfp) afpItems.push(item);
+                                    if (item.onAfp) afpItems.push(item); // Additional reqs follow their own onAfp flag
                                     if (isMoreThan12Hours && item.has12hrVariant && quoteItemsData[item.has12hrVariant]) {
                                         const twelveHrAddItem = quoteItemsData[item.has12hrVariant];
                                         if(twelveHrAddItem.onInvoice) invoiceItems.push(twelveHrAddItem);
@@ -503,13 +521,13 @@
                         if (!quoteItemsData[itemKey12Hr]) {
                              quoteItemsData[itemKey12Hr] = { code: "TBA", description: `${selectedContractType} - ${selectedTrafficManagement} additional 12 hours (Details TBA)`, price: 0, onInvoice: true, onAfp: true };
                         }
-                        selectedTmItemData = quoteItemsData[itemKey]; 
+                        // isSpecialActionIA will be false for ONSA/Fibre as TBA items don't have specialAction
                         baseItemCodes.push(itemKey);
                          baseItemCodes.forEach(code => {
                             const item = quoteItemsData[code];
                             if (item) {
                                 if (item.onInvoice) invoiceItems.push(item);
-                                if (item.onAfp) afpItems.push(item);
+                                if (item.onAfp) afpItems.push(item); // ONSA/Fibre will follow item.onAfp
                                 if (isMoreThan12Hours && item.has12hrVariant && quoteItemsData[item.has12hrVariant]) {
                                     const twelveHrItem = quoteItemsData[item.has12hrVariant];
                                     if (twelveHrItem.onInvoice) invoiceItems.push(twelveHrItem);
@@ -538,6 +556,7 @@
                             });
                     }
 
+                    // Handle Emergency Fee - always on AFP, regardless of TM type's specialAction
                     if (isEmergency && quoteItemsData.TM15) {
                         if (!afpItems.find(item => item.code === "TM15" && item.description === quoteItemsData.TM15.description)) {
                            afpItems.push(quoteItemsData.TM15);
@@ -547,20 +566,23 @@
                     const anInvoiceIsNeeded = invoiceItems.length > 0;
                     const anAfpIsNeeded = afpItems.length > 0;
 
-                    if (selectedTmItemData && selectedTmItemData.specialAction === "I&A Invoice") {
+                    // Determine Main Message
+                    if (isSpecialActionIA) {
                         mainMessage = "You need to make an I&A Invoice.";
                     } else if (anInvoiceIsNeeded && anAfpIsNeeded) {
                         mainMessage = "You need to make an Invoice and an AFP.";
                     } else if (anInvoiceIsNeeded) {
                         mainMessage = "You need to make an Invoice.";
-                    } else if (anAfpIsNeeded) {
+                    } else if (anAfpIsNeeded) { // This could be true if only emergency fee is present
                         mainMessage = "You need to make an AFP.";
                     } else {
                         mainMessage = "No specific quote actions identified for these selections.";
                     }
                     
                     if (anInvoiceIsNeeded) generateTable(invoiceTableContainer, "Invoice Items", invoiceItems);
+                    // AFP table only shows if there are AFP items (e.g. emergency, or non-I&A TM type, or AFP-able additional reqs)
                     if (anAfpIsNeeded) generateTable(afpTableContainer, "AFP Items", afpItems);
+
 
                     if (additionalNotes.length > 0) {
                         let notesHtml = '<h4 class="text-md font-semibold text-gray-600 mt-4 mb-1">Additional Notes:</h4><ul>';
