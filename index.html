@@ -226,7 +226,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // DOM Element References
             const contractTypeCheckboxes = document.querySelectorAll('input[name="contractType"]');
             const trafficManagementCheckboxes = document.querySelectorAll('input[name="trafficManagement"]');
             
@@ -245,16 +244,12 @@
             const afpTableContainer = document.getElementById('afpTableContainer');
             const additionalNotesContainer = document.getElementById('additionalNotesContainer');
 
-            // Data for quote items
-            // Includes OSA LOT 2.0 Traffic Management Items and Additional Requirements
-            // specialAction: "I&A Invoice" for specific TM types.
-            // additionalNote: "I&A Invoice" for specific additional requirement items if they need a bullet point.
             const quoteItemsData = {
                 // OSA LOT 2.0 Traffic Management Items
-                TM03_GE_TBA: { code: "TBA", description: "Traffic control (two-way signals) road speed ≥ 40mph (TBA Rates)", price: 0, onInvoice: true, onAfp: false, has12hrVariant: "TM3A_GE_TBA", specialAction: "I&A Invoice" },
-                TM3A_GE_TBA: { code: "TBA", description: "Traffic control (two-way signals) road speed ≥ 40mph additional 12 Hours (TBA Rates)", price: 0, onInvoice: true, onAfp: false },
-                TM03_LT: { code: "TBA", description: "Traffic control (two-way signals) road speed < 40mph (TBA Rates)", price: 0, onInvoice: true, onAfp: false, has12hrVariant: "TM3A_LT" },
-                TM3A_LT: { code: "TBA", description: "Traffic control (two-way signals) road speed < 40mph additional 12 Hours (TBA Rates)", price: 0, onInvoice: true, onAfp: false },
+                TM03_GE_TBA: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false, has12hrVariant: "TM3A_GE_TBA", specialAction: "I&A Invoice" },
+                TM3A_GE_TBA: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false },
+                TM03_LT: { code: "TBA", description: "Traffic control (two-way signals) road speed < 40mph (TBA Rates) - Invoice + AFP", price: 0, onInvoice: true, onAfp: true, has12hrVariant: "TM3A_LT" },
+                TM3A_LT: { code: "TBA", description: "Traffic control (two-way signals) road speed < 40mph additional 12 Hours (TBA Rates) - Invoice + AFP", price: 0, onInvoice: true, onAfp: true },
                 
                 TM04: { code: "TM04", description: "Traffic control (three-way signals)", price: 440, onInvoice: true, onAfp: true, has12hrVariant: "TM4A" },
                 TM4A: { code: "TM4A", description: "Traffic control (three-way signals) additional 12 hours", price: 40, onInvoice: true, onAfp: true },
@@ -266,8 +261,8 @@
                 FOOT_CLOS: { code: "TBA", description: "Footpath Closure (TM Type) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true, has12hrVariant: "FOOT_CLOS_12HR" },
                 FOOT_CLOS_12HR: { code: "TBA", description: "Footpath Closure (TM Type) additional 12 hours - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
                 
-                TM08_GE: { code: "TM08", description: "Lane closure (Dual Carriageway or Motorway ≥40mph)", price: 845, onInvoice: true, onAfp: false, has12hrVariant: "TM8A_GE", specialAction: "I&A Invoice" }, 
-                TM8A_GE: { code: "TM8A", description: "Lane closure (Dual Carriageway or Motorway ≥40mph) additional 12 hours", price: 845, onInvoice: true, onAfp: false },
+                TM08_GE: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false, has12hrVariant: "TM8A_GE", specialAction: "I&A Invoice" }, 
+                TM8A_GE: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false },
                 TM08_LT: { code: "TM08", description: "Lane closure (Dual Carriageway or Motorway <40mph)", price: 845, onInvoice: true, onAfp: false, has12hrVariant: "TM8A_LT" }, 
                 TM8A_LT: { code: "TM8A", description: "Lane closure (Dual Carriageway or Motorway <40mph) additional 12 hours", price: 845, onInvoice: true, onAfp: false },
                 
@@ -306,14 +301,12 @@
                 TM15: { code: "TM15", description: "Emergency Call Out Fee", price: 90, onInvoice: false, onAfp: true },
             };
 
-            // Function to enforce mutual exclusivity for checkbox groups
             function handleExclusivity(checkboxes, currentCheckbox) {
                 checkboxes.forEach(cb => {
                     if (cb !== currentCheckbox) cb.checked = false;
                 });
             }
 
-            // Event listeners for exclusive groups (Contract Type, Traffic Management)
             [...contractTypeCheckboxes, ...trafficManagementCheckboxes].forEach(groupMember => {
                 groupMember.addEventListener('change', () => {
                     if (groupMember.checked) {
@@ -324,7 +317,6 @@
                 });
             });
 
-            // Event listeners for non-exclusive additional requirements and duration/urgency checkboxes
             [
                 manualControlCheckbox, oohCheckbox, pedSetsCheckbox, 
                 additionalTmPlanCheckbox, specialSignsCheckbox, bssCheckbox, 
@@ -333,7 +325,6 @@
                 checkbox.addEventListener('change', updateOutput);
             });
             
-            // Function to get selected value from a checkbox group
             function getSelectedValue(checkboxGroup) {
                 for (const checkbox of checkboxGroup) {
                     if (checkbox.checked) return checkbox.value;
@@ -341,11 +332,9 @@
                 return null;
             }
 
-            // Function to generate and display tables for invoice and AFP items
             function generateTable(containerElement, title, items) {
-                containerElement.innerHTML = ''; // Clear previous content
+                containerElement.innerHTML = '';
                 if (items.length === 0) return;
-                // Deduplicate items based on code and description (simple deduplication)
                 const uniqueItems = items.reduce((acc, current) => {
                     const x = acc.find(item => item.code === current.code && item.description === current.description);
                     if (!x) return acc.concat([current]);
@@ -368,26 +357,23 @@
                 containerElement.innerHTML = tableHtml;
             }
 
-            // Function to manage conflicts between TM types and Additional Requirements
             function manageConflicts(selectedTMValue) {
-                // Reset all potentially conflicting additional requirements first
                 [additionalTmPlanCheckbox, bssCheckbox, pedSetsCheckbox].forEach(cb => {
                     cb.disabled = false;
                 });
 
                 if (selectedTMValue === "TM Plan only") {
-                    additionalTmPlanCheckbox.checked = false; // Uncheck if conflicting TM is selected
+                    additionalTmPlanCheckbox.checked = false; 
                     additionalTmPlanCheckbox.disabled = true;
                 } else if (selectedTMValue === "Bus Stop Suspension") {
-                    bssCheckbox.checked = false; // Uncheck if conflicting TM is selected
+                    bssCheckbox.checked = false; 
                     bssCheckbox.disabled = true;
                 } else if (selectedTMValue === "Ped Crossing Only") {
-                    pedSetsCheckbox.checked = false; // Uncheck if conflicting TM is selected
+                    pedSetsCheckbox.checked = false; 
                     pedSetsCheckbox.disabled = true;
                 }
             }
             
-            // Main function to update the output based on selections
             function updateOutput() {
                 const selectedContractType = getSelectedValue(contractTypeCheckboxes);
                 const selectedTrafficManagement = getSelectedValue(trafficManagementCheckboxes);
@@ -399,27 +385,24 @@
                 let additionalNotes = []; 
                 let mainMessage = "Please make a selection from Contract Type and Traffic Management categories.";
 
-                // Clear previous outputs
                 invoiceTableContainer.innerHTML = '';
                 afpTableContainer.innerHTML = '';
                 additionalNotesContainer.innerHTML = '';
 
-                // Manage conflicts for additional items based on selected TM
                 manageConflicts(selectedTrafficManagement);
 
                 if (selectedContractType && selectedTrafficManagement) {
-                    mainMessage = ""; // Reset main message, will be built based on findings
+                    mainMessage = ""; 
                     let baseItemCodes = []; 
-                    let selectedTmItemData = null; // To store the data object of the selected TM for specialAction
+                    let selectedTmItemData = null; 
 
                     if (selectedContractType === "OSA") {
-                        // OSA Specific Logic for Traffic Management
                         switch (selectedTrafficManagement) {
                             case "2 Way Lights (40mph≥)": baseItemCodes.push("TM03_GE_TBA"); break;
                             case "2 Way Lights (40mph<)": baseItemCodes.push("TM03_LT"); break;
                             case "3 Way Lights": baseItemCodes.push("TM04"); break;
                             case "4 Way Lights": baseItemCodes.push("TM05"); break;
-                            case "5 Way Lights": baseItemCodes.push("TM03_GE_TBA", "TM04"); // Uses GE TBA for 2-way part
+                            case "5 Way Lights": baseItemCodes.push("TM03_GE_TBA", "TM04"); 
                                 break;
                             case "Bus Stop Suspension": baseItemCodes.push("BUS_SUS"); break;
                             case "Footpath Closure": baseItemCodes.push("FOOT_CLOS"); break;
@@ -437,11 +420,9 @@
                             case "TO15 NTR": baseItemCodes.push("TM22_TO15_NTR"); break;
                         }
 
-                        // Process base TM items
                         baseItemCodes.forEach((code, index) => {
                             const item = quoteItemsData[code];
                             if (item) {
-                                // For determining specialAction, prioritize the first item or specific items like TM03_GE_TBA in 5-way
                                 if (index === 0 && baseItemCodes.length === 1) selectedTmItemData = item; 
                                 if (!selectedTmItemData && item.specialAction) selectedTmItemData = item;
 
@@ -454,12 +435,10 @@
                                 }
                             }
                         });
-                        // Explicit check for 5-way lights special action from TM03_GE_TBA
                         if (selectedTrafficManagement === "5 Way Lights" && quoteItemsData["TM03_GE_TBA"]?.specialAction) {
                             selectedTmItemData = quoteItemsData["TM03_GE_TBA"];
                         }
                         
-                        // OSA Additional Requirements
                         const additionalReqMap = {
                             manualControl: 'TM11', ooh: 'TM14', pedSets: 'TM10_PedSet',
                             additionalTmPlan: 'TM16_ADD', specialSigns: 'SPEC_SIGNS', bss: 'BSS_ADD'
@@ -483,21 +462,18 @@
                             }
                         });
 
-                    } else { // ONSA or Fibre Build - Use TBA placeholders
-                        const tmValueClean = selectedTrafficManagement.replace(/[^a-zA-Z0-9]/g, ''); // Basic clean for key
+                    } else { // ONSA or Fibre Build
+                        const tmValueClean = selectedTrafficManagement.replace(/[^a-zA-Z0-9]/g, '');
                         const itemKey = `${selectedContractType}_${tmValueClean}_TBA`;
                         const itemKey12Hr = `${itemKey}_12HR`;
-                        // Ensure these TBA items are defined if not already in quoteItemsData for this run
                         if (!quoteItemsData[itemKey]) {
                             quoteItemsData[itemKey] = { code: "TBA", description: `${selectedContractType} - ${selectedTrafficManagement} (Details TBA)`, price: 0, onInvoice: true, onAfp: true, has12hrVariant: itemKey12Hr };
                         }
                         if (!quoteItemsData[itemKey12Hr]) {
                              quoteItemsData[itemKey12Hr] = { code: "TBA", description: `${selectedContractType} - ${selectedTrafficManagement} additional 12 hours (Details TBA)`, price: 0, onInvoice: true, onAfp: true };
                         }
-                        selectedTmItemData = quoteItemsData[itemKey]; // Capture TBA item data for potential specialAction (though unlikely for TBA)
+                        selectedTmItemData = quoteItemsData[itemKey]; 
                         baseItemCodes.push(itemKey);
-
-                        // Process base items and additional requirements similarly for ONSA/Fibre
                          baseItemCodes.forEach(code => {
                             const item = quoteItemsData[code];
                             if (item) {
@@ -510,11 +486,10 @@
                                 }
                             }
                         });
-                        // Add generic additional requirements for ONSA/Fibre
                         Object.entries({manualControl: 'TM11', ooh: 'TM14', pedSets: 'TM10_PedSet', additionalTmPlan: 'TM16_ADD', specialSigns: 'SPEC_SIGNS', bss: 'BSS_ADD'})
                             .forEach(([cbId, itemCode]) => {
                                 const cbElement = document.getElementById(cbId);
-                                if (cbElement && cbElement.checked && !cbElement.disabled) { // Check if checkbox exists and is checked and not disabled
+                                if (cbElement && cbElement.checked && !cbElement.disabled) { 
                                      const item = quoteItemsData[itemCode];
                                      if (item) {
                                         if (item.onInvoice) invoiceItems.push(item);
@@ -532,7 +507,6 @@
                             });
                     }
 
-                    // Handle Emergency Fee - always on AFP
                     if (isEmergency && quoteItemsData.TM15) {
                         if (!afpItems.find(item => item.code === "TM15" && item.description === quoteItemsData.TM15.description)) {
                            afpItems.push(quoteItemsData.TM15);
@@ -542,7 +516,6 @@
                     const anInvoiceIsNeeded = invoiceItems.length > 0;
                     const anAfpIsNeeded = afpItems.length > 0;
 
-                    // Determine Main Message
                     if (selectedTmItemData && selectedTmItemData.specialAction === "I&A Invoice") {
                         mainMessage = "You need to make an I&A Invoice.";
                     } else if (anInvoiceIsNeeded && anAfpIsNeeded) {
@@ -555,11 +528,9 @@
                         mainMessage = "No specific quote actions identified for these selections.";
                     }
                     
-                    // Generate tables if items exist
                     if (anInvoiceIsNeeded) generateTable(invoiceTableContainer, "Invoice Items", invoiceItems);
                     if (anAfpIsNeeded) generateTable(afpTableContainer, "AFP Items", afpItems);
 
-                    // Display additional notes if any
                     if (additionalNotes.length > 0) {
                         let notesHtml = '<h4 class="text-md font-semibold text-gray-600 mt-4 mb-1">Additional Notes:</h4><ul>';
                         additionalNotes.forEach(note => {
@@ -572,7 +543,6 @@
                 }
                 outputMessageElement.textContent = mainMessage;
             }
-            // Initial call to set up the page state (e.g., conflicts)
             updateOutput();
         });
     </script>
