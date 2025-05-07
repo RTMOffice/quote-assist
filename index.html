@@ -292,8 +292,12 @@
                     <p>AFP</p>
                 </div>
                 <div id="iaInvoiceActionIcon" class="action-icon inactive">
-                    <img src="https://www.svgrepo.com/show/7916/three.svg" alt="I&A Invoice Icon">
+                    <img src="https://www.svgrepo.com/show/7916/three.svg" alt="I&A Invoice Icon"> 
                     <p>I&A Invoice</p>
+                </div>
+                <div id="requestSlipActionIcon" class="action-icon inactive">
+                    <img src="https://www.svgrepo.com/show/41065/four.svg" alt="Request SLIP Icon"> 
+                    <p>Request SLIP</p>
                 </div>
             </div>
             <div id="invoiceTableContainer" class="mb-6"></div>
@@ -325,6 +329,7 @@
             const invoiceActionIcon = document.getElementById('invoiceActionIcon');
             const afpActionIcon = document.getElementById('afpActionIcon');
             const iaInvoiceActionIcon = document.getElementById('iaInvoiceActionIcon');
+            const requestSlipActionIcon = document.getElementById('requestSlipActionIcon'); 
             const actionIconsPlaceholder = document.getElementById('actionIconsPlaceholder');
 
 
@@ -378,7 +383,7 @@
                 TM16_ADD: { code: "TM16", description: "Additional TM Plan (CAD Drawing - Over 40mph inc Multiway Lights)", price: 70.20, onInvoice: true, onAfp: true },
                 SPEC_SIGNS: { code: "TBA", description: "Special Signs - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true }, 
                 BSS_ADD: { code: "TBA", description: "Bus Stop Suspension (Additional Requirement) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true }, 
-                TM15: { code: "TM15", description: "Emergency Call Out Fee", price: 90, onInvoice: false, onAfp: true },
+                TM15: { code: "TM15", description: "Emergency Call Out Fee", price: 90, onInvoice: true, onAfp: true }, // OSA Emergency Fee
 
                 ONSA_2_WAY_OVER_40: {
                     onInvoice: true, onAfp: true, 
@@ -435,6 +440,17 @@
                         { code: "MTS42", description: "Footpath Closure & Diversion Up to 60 Signs, Delivery, Collection, Setup & Hire, Out Of Hours", price: 375 }
                     ]
                 },
+                 ONSA_LANE_CLOSURE_OVER_40: { 
+                    onInvoice: true, onAfp: true,
+                    standardItems: [
+                        { code: "MTS43", description: "Dual Carriageway Closure, 50 mph or above Delivery, Collection, Setup & Hire, In Hours", price: 1375 },
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75 }
+                    ],
+                    oohItems: [
+                        { code: "MTS44", description: "Dual Carriageway Closure, 50 mph or above Delivery, Collection, Setup & Hire, Out Of Hours", price: 1600 },
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75 }
+                    ]
+                },
                 ONSA_PED_CROSSING: {
                     onInvoice: true, onAfp: true,
                     standardItems: [
@@ -449,12 +465,16 @@
                     standardItems: [
                         { code: "MTS27", description: "Road Closure & Diversion Up to 25 Signs, Delivery, Setup & Hire, In Hours (First Day)", price: 240 },
                         { code: "MTS28", description: "Road Closure & Diversion Up to 25 Signs, Dismantle, Collection & Hire, In Hours (First Day)", price: 145 },
-                        { code: "MTS76", description: "TM Drawings & Planning", price: 75}
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75},
+                        { code: "MTS62", description: "Letterdrop", price: 155 }, 
+	                    { code: "MTS54", description: "Advance Warning Sign for Road Closures & Specials.", price: 60 } 
                     ],
                     oohItems: [
                         { code: "MTS30", description: "Road Closure & Diversion Up to 25 Signs, Delivery, Setup & Hire, Out of Hours (First Day)", price: 325 },
                         { code: "MTS31", description: "Road Closure & Diversion Up to 25 Signs, Dismantle, Collection & Hire, Out of Hours (First Day)", price: 205 },
-                        { code: "MTS76", description: "TM Drawings & Planning", price: 75}
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75},
+                        { code: "MTS62", description: "Letterdrop", price: 155 },
+	                    { code: "MTS54", description: "Advance Warning Sign for Road Closures & Specials.", price: 60 }
                     ],
                     secondDayItems: [
                         { code: "MTS29", description: "Road Closure & Diversion Up to 25 Signs, Daily Hire Second Day Onwards", price: 40 }
@@ -465,12 +485,16 @@
                     standardItems: [
                         { code: "MTS32", description: "Road Closure & Diversion Up to 60 Signs, Delivery, Setup & Hire, In Hours (First Day)", price: 323 },
                         { code: "MTS33", description: "Road Closure & Diversion Up to 60 Signs, Dismantle, Collection & Hire, In Hours (First Day)", price: 188 },
-                        { code: "MTS76", description: "TM Drawings & Planning", price: 75}
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75},
+                        { code: "MTS62", description: "Letterdrop", price: 155 },
+	                    { code: "MTS54", description: "Advance Warning Sign for Road Closures & Specials.", price: 60 }
                     ],
                     oohItems: [
                         { code: "MTS35", description: "Road Closure & Diversion Up to 60 Signs, Delivery, Setup & Hire, Out of Hours (First Day)", price: 457 }, 
                         { code: "MTS36", description: "Road Closure & Diversion Up to 60 Signs, Dismantle, Collection & Hire, Out of Hours (First Day)", price: 223 }, 
-                        { code: "MTS76", description: "TM Drawings & Planning", price: 75}
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75},
+                        { code: "MTS62", description: "Letterdrop", price: 155 },
+	                    { code: "MTS54", description: "Advance Warning Sign for Road Closures & Specials.", price: 60 }
                     ],
                     secondDayItems: [
                         { code: "MTS34", description: "Road Closure & Diversion Up to 60 Signs, Daily Hire Second Day Onwards", price: 57 } 
@@ -483,14 +507,18 @@
                         { code: "MTS33", description: "Road Closure & Diversion Up to 60 Signs, Dismantle, Collection & Hire, In Hours (First Day)", price: 188 },
                         { code: "MTS27", description: "Road Closure & Diversion Up to 25 Signs, Delivery, Setup & Hire, In Hours (First Day)", price: 240 },
                         { code: "MTS28", description: "Road Closure & Diversion Up to 25 Signs, Dismantle, Collection & Hire, In Hours (First Day)", price: 145 },
-                        { code: "MTS76", description: "TM Drawings & Planning", price: 75}
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75},
+                        { code: "MTS62", description: "Letterdrop", price: 155 },
+	                    { code: "MTS54", description: "Advance Warning Sign for Road Closures & Specials.", price: 60 }
                     ],
                     oohItems: [
                         { code: "MTS35", description: "Road Closure & Diversion Up to 60 Signs, Delivery, Setup & Hire, Out of Hours (First Day)", price: 457 },
                         { code: "MTS36", description: "Road Closure & Diversion Up to 60 Signs, Dismantle, Collection & Hire, Out of Hours (First Day)", price: 223 },
                         { code: "MTS30", description: "Road Closure & Diversion Up to 25 Signs, Delivery, Setup & Hire, Out of Hours (First Day)", price: 325 },
                         { code: "MTS31", description: "Road Closure & Diversion Up to 25 Signs, Dismantle, Collection & Hire, Out of Hours (First Day)", price: 205 },
-                        { code: "MTS76", description: "TM Drawings & Planning", price: 75}
+                        { code: "MTS76", description: "TM Drawings & Planning", price: 75},
+                        { code: "MTS62", description: "Letterdrop", price: 155 },
+	                    { code: "MTS54", description: "Advance Warning Sign for Road Closures & Specials.", price: 60 }
                     ],
                     secondDayItems: [
                         { code: "MTS34", description: "Road Closure & Diversion Up to 60 Signs, Daily Hire Second Day Onwards", price: 57 },
@@ -573,8 +601,13 @@
                 },
                 BSS_ADD_ONSA: { 
                     onInvoice: true, onAfp: true,
-                    standardItems: [{ code: "TBA", description: "Bus Stop Suspension (Additional Requirement ONSA) - Details TBA", price: 0 }]
+                    standardItems: [{ code: "MTS70", description: "TBA", price: 0 }] 
                 },
+                PRE_CONE_ONSA: { 
+                     onInvoice: true, onAfp: false, 
+                     specialAction: "I&A Invoice",
+                     standardItems: [{ code: "MTS63", description: "Installation, Hire and Collection of upto 25 'No Parking Cones'", price: 215 }]
+                }
             };
 
             function handleExclusivity(checkboxes, currentCheckbox) {
@@ -624,9 +657,9 @@
                 tableHtml += '<tbody class="divide-y divide-gray-200">';
                 uniqueItems.forEach(item => {
                     tableHtml += `<tr>
-                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">${item.code}</td>
-                        <td class="px-4 py-3 text-sm text-gray-700">${item.description}</td>
-                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">£${item.price.toFixed(2)}</td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">${item.code || 'N/A'}</td>
+                        <td class="px-4 py-3 text-sm text-gray-700">${item.description || 'N/A'}</td>
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">£${(item.price || 0).toFixed(2)}</td>
                     </tr>`;
                 });
                 tableHtml += '</tbody></table></div>';
@@ -672,6 +705,8 @@
                 afpActionIcon.classList.remove('active');
                 iaInvoiceActionIcon.classList.add('inactive');
                 iaInvoiceActionIcon.classList.remove('active');
+                requestSlipActionIcon.classList.add('inactive'); 
+                requestSlipActionIcon.classList.remove('active');
                 actionIconsPlaceholder.classList.remove('hidden');
 
                 manageConflicts(selectedTrafficManagement);
@@ -758,7 +793,7 @@
                                 if (item) {
                                     if (item.onInvoice) invoiceItems.push(item);
                                     if (item.onAfp && !isSpecialActionIA) afpItems.push(item);
-                                     if (isMoreThanOneDay && item.has12hrVariant && quoteItemsData[item.has12hrVariant]) {
+                                     if (isMoreThanOneDay && item.has12hrVariant && quoteItemsData[item.has12hrVariant]) { 
                                         const twelveHrAddItem = quoteItemsData[item.has12hrVariant];
                                         if(twelveHrAddItem.onInvoice) invoiceItems.push(twelveHrAddItem);
                                         if(twelveHrAddItem.onAfp && !isSpecialActionIA) afpItems.push(twelveHrAddItem);
@@ -774,12 +809,17 @@
                     } else if (selectedContractType === "ONSA") {
                         isSpecialActionIA = false; 
                         switch (selectedTrafficManagement) {
+                            case "2 Way Lights (Up to 40mph)": baseItemKey = "ONSA_2_WAY_UPTO"; break; 
                             case "2 Way Lights (Over 40mph)": baseItemKey = "ONSA_2_WAY_OVER_40"; break;
                             case "3 Way Lights": baseItemKey = "ONSA_3_WAY"; break;
                             case "4 Way Lights": baseItemKey = "ONSA_4_WAY"; break;
                             case "5 Way Lights": baseItemKey = "ONSA_5_WAY"; break; 
+                            case "Bus Stop Suspension": baseItemKey = "ONSA_BUS_SUSPENSION"; break; 
                             case "Footpath Closure": baseItemKey = "ONSA_FOOTPATH_CLOSURE"; break;
+                            case "Lane Closure (Up to 40mph)": baseItemKey = "ONSA_LANE_CLOSURE_UPTO"; break; 
+                            case "Lane Closure (Over 40mph)": baseItemKey = "ONSA_LANE_CLOSURE_OVER_40"; break;
                             case "Ped Crossing Only": baseItemKey = "ONSA_PED_CROSSING"; break;
+                            case "Pre Cone": baseItemKey = "PRE_CONE_ONSA"; break; 
                             case "Road Closure Up to 25 Signs": baseItemKey = "ONSA_RC_25"; break;
                             case "Road Closure Up to 60 signs": baseItemKey = "ONSA_RC_60"; break;
                             case "Road Closure Up to 85 signs": baseItemKey = "ONSA_RC_85"; break;
@@ -803,6 +843,8 @@
                         }
                         
                         let itemsToProcess = [];
+                        let tmDataForProcessing = null; 
+
                         if (baseItemKey === "ONSA_5_WAY") { 
                             const twoWayData = quoteItemsData["ONSA_2_WAY_OVER_40"];
                             const threeWayData = quoteItemsData["ONSA_3_WAY"];
@@ -811,27 +853,30 @@
                             itemsToProcess.push(...(itemsTwoWay || []));
                             itemsToProcess.push(...(itemsThreeWay || []));
 
-                            if (isMoreThanOneDay) {
+                            if (isMoreThanOneDay) { 
                                 if(twoWayData.secondDayItems) itemsToProcess.push(...twoWayData.secondDayItems);
                                 if(threeWayData.secondDayItems) itemsToProcess.push(...threeWayData.secondDayItems);
                             }
                             if (twoWayData.onInvoice || threeWayData.onInvoice) itemsToProcess.forEach(item => { if(item) invoiceItems.push(item); });
                             if (twoWayData.onAfp || threeWayData.onAfp) itemsToProcess.forEach(item => { if(item) afpItems.push(item); });
+                            isSpecialActionIA = twoWayData?.specialAction === "I&A Invoice" || threeWayData?.specialAction === "I&A Invoice";
 
 
                         } else if (quoteItemsData[baseItemKey]) {
-                            const tmData = quoteItemsData[baseItemKey];
-                            itemsToProcess = isOoh && tmData.oohItems ? tmData.oohItems : tmData.standardItems;
-                            if (isMoreThanOneDay && tmData.secondDayItems) {
-                                itemsToProcess = itemsToProcess.concat(tmData.secondDayItems);
+                            tmDataForProcessing = quoteItemsData[baseItemKey];
+                            itemsToProcess = isOoh && tmDataForProcessing.oohItems ? tmDataForProcessing.oohItems : tmDataForProcessing.standardItems;
+                            if (isMoreThanOneDay && tmDataForProcessing.secondDayItems) { 
+                                itemsToProcess = itemsToProcess.concat(tmDataForProcessing.secondDayItems);
                             }
-                            if (tmData.onInvoice) invoiceItems.push(...itemsToProcess);
-                            if (tmData.onAfp) afpItems.push(...itemsToProcess);
+                            isSpecialActionIA = tmDataForProcessing.specialAction === "I&A Invoice"; 
+
+                            if (tmDataForProcessing.onInvoice) itemsToProcess.forEach(item => { if(item) invoiceItems.push(item); });
+                            if (tmDataForProcessing.onAfp && !isSpecialActionIA) itemsToProcess.forEach(item => { if(item) afpItems.push(item); });
                         }
 
                         const onsaAdditionalReqMap = {
                             manualControl: 'MAN_CON_ONSA', 
-                            pedSets: 'PED_LIGHTS_ONSA',
+                            pedSets: 'PED_LIGHTS_ONSA', 
                             additionalTmPlan: 'ADD_TM_PLAN_ONSA', 
                             specialSigns: 'SPECIAL_SIGNS_ONSA', 
                             bss: 'BSS_ADD_ONSA'
@@ -844,11 +889,15 @@
                                     const items = (isOoh && onsaItemData.oohItems) ? onsaItemData.oohItems : onsaItemData.standardItems;
                                     if (items) {
                                         if (onsaItemData.onInvoice) invoiceItems.push(...items);
-                                        if (onsaItemData.onAfp) afpItems.push(...items);
+                                        if (onsaItemData.onAfp) afpItems.push(...items); 
                                     }
                                 }
                             }
                         });
+                        if (isEmergency && (baseItemKey === "ONSA_RC_25" || baseItemKey === "ONSA_RC_60" || baseItemKey === "ONSA_RC_85")) {
+                             invoiceItems = invoiceItems.filter(item => item.code !== "MTS62" && item.code !== "MTS54");
+                             afpItems = afpItems.filter(item => item.code !== "MTS62" && item.code !== "MTS54");
+                        }
 
 
                     } else { // Fibre Build 
@@ -868,21 +917,24 @@
 
                     // Apply Emergency Fee only for OSA
                     if (isEmergency && selectedContractType === "OSA" && quoteItemsData.TM15) {
-                        if (isSpecialActionIA) {
-                            // If OSA I&A and emergency, AFP is solely for emergency
-                            afpItems = [quoteItemsData.TM15]; 
-                        } else if (!afpItems.find(item => item.code === "TM15")) {
-                           afpItems.push(quoteItemsData.TM15); 
+                        const emergencyItem = quoteItemsData.TM15;
+                        if(emergencyItem.onInvoice && !invoiceItems.find(item => item.code === emergencyItem.code)) {
+                            invoiceItems.push(emergencyItem);
+                        }
+                        if (isSpecialActionIA) { 
+                            afpItems = [emergencyItem];
+                        } else if (emergencyItem.onAfp && !afpItems.find(item => item.code === emergencyItem.code)) {
+                           afpItems.push(emergencyItem); 
                         }
                     } else if (isSpecialActionIA && selectedContractType === "OSA") { 
-                        // If OSA I&A but not emergency, ensure afpItems from TM are cleared
-                        afpItems = []; 
+                         afpItems = afpItems.filter(item => item.code === "TM15"); 
+                         if (!isEmergency) afpItems = [];
                     }
                     
                     const anInvoiceIsNeeded = invoiceItems.length > 0;
                     const anAfpIsNeeded = afpItems.length > 0;
 
-                    if (isSpecialActionIA) { // This flag is primarily for OSA TM types with specialAction
+                    if (isSpecialActionIA) { 
                         iaInvoiceActionIcon.classList.remove('inactive');
                         iaInvoiceActionIcon.classList.add('active');
                         invoiceActionIcon.classList.add('inactive'); 
@@ -895,7 +947,7 @@
                             afpActionIcon.classList.add('inactive');
                             afpActionIcon.classList.remove('active');
                         }
-                    } else { // Not an I&A Invoice special action TM type (e.g. standard OSA, ONSA, Fibre)
+                    } else { 
                         if (anInvoiceIsNeeded) {
                             invoiceActionIcon.classList.remove('inactive');
                             invoiceActionIcon.classList.add('active');
@@ -908,19 +960,17 @@
                     
                     if (anInvoiceIsNeeded) generateTable(invoiceTableContainer, "Invoice Items", invoiceItems);
                     
-                    // AFP Table display logic
-                    if (isSpecialActionIA && selectedContractType === "OSA") { // OSA I&A case
+                    if (isSpecialActionIA && selectedContractType === "OSA") { 
                         if (isEmergency && anAfpIsNeeded) { 
                             generateTable(afpTableContainer, "AFP Items (Emergency Only)", afpItems.filter(item => item.code === "TM15"));
                         } else {
                             afpTableContainer.innerHTML = ''; 
                         }
-                    } else if (anAfpIsNeeded) { // Non-I&A OSA, or ONSA/Fibre cases
+                    } else if (anAfpIsNeeded) { 
                         generateTable(afpTableContainer, "AFP Items", afpItems);
                     } else {
-                         afpTableContainer.innerHTML = ''; // Clear if no AFP items at all
+                         afpTableContainer.innerHTML = ''; 
                     }
-
 
                     if (additionalNotes.length > 0) {
                         let notesHtml = '<h4 class="text-md font-semibold text-gray-600 mt-4 mb-1">Additional Notes:</h4><ul>';
@@ -933,7 +983,8 @@
 
                     if (invoiceActionIcon.classList.contains('inactive') &&
                         afpActionIcon.classList.contains('inactive') &&
-                        iaInvoiceActionIcon.classList.contains('inactive')) {
+                        iaInvoiceActionIcon.classList.contains('inactive') &&
+                        requestSlipActionIcon.classList.contains('inactive') ) { 
                         mainMessageText = "No specific quote actions identified for these selections.";
                          actionIconsPlaceholder.classList.remove('hidden'); 
                     } else {
