@@ -211,7 +211,7 @@
                     <hr class="my-3 border-gray-300"> 
                     <div>
                         <input type="checkbox" id="moreThan12Hours" name="duration" value="More than 12 hours" class="checkbox-input">
-                        <label for="moreThan12Hours" class="checkbox-label">More than 1 day (ONSA)/ 12 hours+ (OSA)?</label>
+                        <label for="moreThan12Hours" class="checkbox-label">Is more than 1 day?</label>
                     </div>
                     <div>
                         <input type="checkbox" id="emergency" name="urgency" value="Emergency" class="checkbox-input emergency-checkbox">
@@ -342,7 +342,7 @@
                 
                 BUS_SUS: { code: "TBA", description: "Bus Stop Suspension (TM Type) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true, has12hrVariant: "BUS_SUS_12HR" }, 
                 BUS_SUS_12HR: { code: "TBA", description: "Bus Stop Suspension (TM Type) additional 12 hours - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
-                FOOT_CLOS: { code: "TBA", description: "Footpath Closure (TM Type) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true, has12hrVariant: "FOOT_CLOS_12HR" }, // OSA uses TBA
+                FOOT_CLOS: { code: "TBA", description: "Footpath Closure (TM Type) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true, has12hrVariant: "FOOT_CLOS_12HR" }, 
                 FOOT_CLOS_12HR: { code: "TBA", description: "Footpath Closure (TM Type) additional 12 hours - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
                 
                 TM08_UPTO: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false, has12hrVariant: "TM8A_UPTO", specialAction: "I&A Invoice" }, 
@@ -371,20 +371,15 @@
                 TM16_PLAN: { code: "TM16", description: "CAD Drawing - Over 40mph inc Multiway Lights (TM Plan only)", price: 70.20, onInvoice: true, onAfp: true }, 
                 TM13: { code: "TM13", description: "Temporary carriageway closure TO15", price: 690, onInvoice: true, onAfp: false }, 
                 TM22_TO15_NTR: { code: "TM22", description: "TO15 NTR", price: 495, onInvoice: true, onAfp: true },
-
-                // Additional Requirements - OSA
                 TM11: { code: "TM11", description: "Labour only for Manual control of signalised Traffic Management", price: 23.50, onInvoice: true, onAfp: true },
                 TM14: { code: "TM14", description: "Out of Hours attendance for Traffic Management", price: 27.50, onInvoice: true, onAfp: false }, 
                 TM10_PedSet: { code: "TM10", description: "Temporary signalised pedestrian crossing initial 12 hours synthetic (Ped Sets)", price: 225, onInvoice: true, onAfp: true, has12hrVariant: "TMA0_PedSet" },
                 TMA0_PedSet: { code: "TMA0", description: "Temporary signalised pedestrian additional 12 hours (Ped Sets)", price: 25, onInvoice: true, onAfp: true },
                 TM16_ADD: { code: "TM16", description: "Additional TM Plan (CAD Drawing - Over 40mph inc Multiway Lights)", price: 70.20, onInvoice: true, onAfp: true },
-                SPEC_SIGNS: { code: "TBA", description: "Special Signs - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true }, // OSA Specific
-                BSS_ADD: { code: "TBA", description: "Bus Stop Suspension (Additional Requirement) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true }, // OSA Specific
-                
-                // Emergency Fee (Universal)
+                SPEC_SIGNS: { code: "TBA", description: "Special Signs - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true }, 
+                BSS_ADD: { code: "TBA", description: "Bus Stop Suspension (Additional Requirement) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true }, 
                 TM15: { code: "TM15", description: "Emergency Call Out Fee", price: 90, onInvoice: false, onAfp: true },
 
-                // ONSA Specific Items
                 ONSA_2_WAY_OVER_40: {
                     onInvoice: true, onAfp: true, 
                     standardItems: [
@@ -393,7 +388,7 @@
                     ],
                     oohItems: [
                         { code: "MTS11.4", description: "2 Way TM, Delivery, Setup & Hire, Out of Hours (First Day) - Above 40MPH to 60MPH", price: 285 },
-                        { code: "MTS11.5", description: "2 Way TM Dismantle, Collection, Out of Hours (First Day) - Above 40MPH to 60MPH", price: 195 } // Corrected Code
+                        { code: "MTS11.5", description: "2 Way TM Dismantle, Collection, Out of Hours (First Day) - Above 40MPH to 60MPH", price: 195 } 
                     ],
                     secondDayItems: [
                         { code: "MTS11.3", description: "2 Way TM Daily Hire Second Day Onwards - Above 40MPH to 60MPH", price: 30 }
@@ -820,7 +815,6 @@
                                 if(twoWayData.secondDayItems) itemsToProcess.push(...twoWayData.secondDayItems);
                                 if(threeWayData.secondDayItems) itemsToProcess.push(...threeWayData.secondDayItems);
                             }
-                            // For 5-way, set overall onInvoice/onAfp based on components
                             if (twoWayData.onInvoice || threeWayData.onInvoice) itemsToProcess.forEach(item => { if(item) invoiceItems.push(item); });
                             if (twoWayData.onAfp || threeWayData.onAfp) itemsToProcess.forEach(item => { if(item) afpItems.push(item); });
 
@@ -835,7 +829,6 @@
                             if (tmData.onAfp) afpItems.push(...itemsToProcess);
                         }
 
-                        // ONSA Additional Requirements
                         const onsaAdditionalReqMap = {
                             manualControl: 'MAN_CON_ONSA', 
                             pedSets: 'PED_LIGHTS_ONSA',
