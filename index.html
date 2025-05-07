@@ -109,27 +109,27 @@
         /* Action Icon Styles */
         .action-icon-container {
             display: flex;
-            justify-content: space-around; /* Distribute icons evenly */
-            align-items: flex-start; /* Align items to the top */
+            justify-content: space-around; 
+            align-items: flex-start; 
             padding: 1rem 0;
-            margin-bottom: 1rem; /* Space before tables */
-            border-bottom: 1px solid #e5e7eb; /* Separator */
+            margin-bottom: 1rem; 
+            border-bottom: 1px solid #e5e7eb; 
         }
         .action-icon {
             text-align: center;
             transition: opacity 0.3s ease-in-out;
-            flex: 1; /* Allow icons to take up space */
-            max-width: 100px; /* Max width for each icon block */
+            flex: 1; 
+            max-width: 100px; 
         }
         .action-icon img {
             width: 30px;
             height: 30px;
-            margin: 0 auto 0.25rem auto; /* Center image and add space below */
+            margin: 0 auto 0.25rem auto; 
         }
         .action-icon p {
-            font-size: 0.75rem; /* text-xs */
-            font-weight: 500; /* medium */
-            color: #4b5563; /* gray-600 */
+            font-size: 0.75rem; 
+            font-weight: 500; 
+            color: #4b5563; 
         }
         .action-icon.inactive {
             opacity: 0.25;
@@ -188,7 +188,7 @@
 <body class="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6">
 
     <div class="w-full max-w-6xl bg-white p-6 sm:p-8 rounded-xl shadow-2xl">
-        <header class="mb-8 text-center">
+        <header class="mb-8 text-center"> 
             <h1 class="text-3xl sm:text-4xl font-bold text-gray-800">RTM Quote Assist Tool</h1>
         </header>
 
@@ -223,15 +223,15 @@
             <div class="checkbox-card">
                 <h2 class="text-xl font-semibold text-gray-700 mb-4">Traffic Management</h2>
                 <div class="space-y-3 scrollable-checkbox-group">
-                    <div><input type="checkbox" id="tmTwoWayLightsGe" name="trafficManagement" value="2 Way Lights (40mph≥)" class="checkbox-input"><label for="tmTwoWayLightsGe" class="checkbox-label">2 Way Lights (40mph&ge;)</label></div>
-                    <div><input type="checkbox" id="tmTwoWayLightsLt" name="trafficManagement" value="2 Way Lights (40mph<)" class="checkbox-input"><label for="tmTwoWayLightsLt" class="checkbox-label">2 Way Lights (40mph&lt;)</label></div>
+                    <div><input type="checkbox" id="tmTwoWayLightsUpTo" name="trafficManagement" value="2 Way Lights (Up to 40mph)" class="checkbox-input"><label for="tmTwoWayLightsUpTo" class="checkbox-label">2 Way Lights (Up to 40mph)</label></div>
+                    <div><input type="checkbox" id="tmTwoWayLightsOver" name="trafficManagement" value="2 Way Lights (Over 40mph)" class="checkbox-input"><label for="tmTwoWayLightsOver" class="checkbox-label">2 Way Lights (Over 40mph)</label></div>
                     <div><input type="checkbox" id="tmThreeWayLights" name="trafficManagement" value="3 Way Lights" class="checkbox-input"><label for="tmThreeWayLights" class="checkbox-label">3 Way Lights</label></div>
                     <div><input type="checkbox" id="tmFourWayLights" name="trafficManagement" value="4 Way Lights" class="checkbox-input"><label for="tmFourWayLights" class="checkbox-label">4 Way Lights</label></div>
                     <div><input type="checkbox" id="tmFiveWayLights" name="trafficManagement" value="5 Way Lights" class="checkbox-input"><label for="tmFiveWayLights" class="checkbox-label">5 Way Lights</label></div>
                     <div><input type="checkbox" id="tmBusStopSuspension" name="trafficManagement" value="Bus Stop Suspension" class="checkbox-input"><label for="tmBusStopSuspension" class="checkbox-label">Bus Stop Suspension</label></div>
                     <div><input type="checkbox" id="tmFootpathClosure" name="trafficManagement" value="Footpath Closure" class="checkbox-input"><label for="tmFootpathClosure" class="checkbox-label">Footpath Closure</label></div>
-                    <div><input type="checkbox" id="tmLaneClosureGe" name="trafficManagement" value="Lane Closure (40mph≥)" class="checkbox-input"><label for="tmLaneClosureGe" class="checkbox-label">Lane Closure (40mph&ge;)</label></div>
-                    <div><input type="checkbox" id="tmLaneClosureLt" name="trafficManagement" value="Lane Closure (40mph<)" class="checkbox-input"><label for="tmLaneClosureLt" class="checkbox-label">Lane Closure (40mph&lt;)</label></div>
+                    <div><input type="checkbox" id="tmLaneClosureUpTo" name="trafficManagement" value="Lane Closure (Up to 40mph)" class="checkbox-input"><label for="tmLaneClosureUpTo" class="checkbox-label">Lane Closure (Up to 40mph)</label></div>
+                    <div><input type="checkbox" id="tmLaneClosureOver" name="trafficManagement" value="Lane Closure (Over 40mph)" class="checkbox-input"><label for="tmLaneClosureOver" class="checkbox-label">Lane Closure (Over 40mph)</label></div>
                     <div><input type="checkbox" id="tmPedCrossingOnly" name="trafficManagement" value="Ped Crossing Only" class="checkbox-input"><label for="tmPedCrossingOnly" class="checkbox-label">Ped Crossing Only</label></div>
                     <div><input type="checkbox" id="tmPreCone" name="trafficManagement" value="Pre Cone" class="checkbox-input"><label for="tmPreCone" class="checkbox-label">Pre Cone</label></div>
                     <div><input type="checkbox" id="tmRoadClosure" name="trafficManagement" value="Road closure" class="checkbox-input"><label for="tmRoadClosure" class="checkbox-label">Road closure</label></div>
@@ -318,7 +318,6 @@
             const afpTableContainer = document.getElementById('afpTableContainer');
             const additionalNotesContainer = document.getElementById('additionalNotesContainer');
 
-            // Action Icon References
             const invoiceActionIcon = document.getElementById('invoiceActionIcon');
             const afpActionIcon = document.getElementById('afpActionIcon');
             const iaInvoiceActionIcon = document.getElementById('iaInvoiceActionIcon');
@@ -326,11 +325,11 @@
 
 
             const quoteItemsData = {
-                // OSA LOT 2.0 Traffic Management Items
-                TM03_GE_TBA: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false, has12hrVariant: "TM3A_GE_TBA", specialAction: "I&A Invoice" },
-                TM3A_GE_TBA: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false },
-                TM03_LT: { code: "TBA", description: "Traffic control (two-way signals) road speed < 40mph (TBA Rates) - Invoice + AFP", price: 0, onInvoice: true, onAfp: true, has12hrVariant: "TM3A_LT" },
-                TM3A_LT: { code: "TBA", description: "Traffic control (two-way signals) road speed < 40mph additional 12 Hours (TBA Rates) - Invoice + AFP", price: 0, onInvoice: true, onAfp: true },
+                // Renamed keys and updated descriptions for 2 Way Lights and Lane Closures
+                TM03_UPTO_TBA: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false, has12hrVariant: "TM3A_UPTO_TBA", specialAction: "I&A Invoice" },
+                TM3A_UPTO_TBA: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false },
+                TM03_OVER: { code: "TBA", description: "Traffic control (two-way signals) road speed Over 40mph (TBA Rates) - Invoice + AFP", price: 0, onInvoice: true, onAfp: true, has12hrVariant: "TM3A_OVER" }, // Was TM03_LT
+                TM3A_OVER: { code: "TBA", description: "Traffic control (two-way signals) road speed Over 40mph additional 12 Hours (TBA Rates) - Invoice + AFP", price: 0, onInvoice: true, onAfp: true }, // Was TM3A_LT
                 
                 TM04: { code: "TM04", description: "Traffic control (three-way signals)", price: 440, onInvoice: true, onAfp: true, has12hrVariant: "TM4A" },
                 TM4A: { code: "TM4A", description: "Traffic control (three-way signals) additional 12 hours", price: 40, onInvoice: true, onAfp: true },
@@ -342,10 +341,10 @@
                 FOOT_CLOS: { code: "TBA", description: "Footpath Closure (TM Type) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true, has12hrVariant: "FOOT_CLOS_12HR" },
                 FOOT_CLOS_12HR: { code: "TBA", description: "Footpath Closure (TM Type) additional 12 hours - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
                 
-                TM08_GE: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false, has12hrVariant: "TM8A_GE", specialAction: "I&A Invoice" }, 
-                TM8A_GE: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false },
-                TM08_LT: { code: "TM08", description: "Lane closure (Dual Carriageway or Motorway <40mph)", price: 845, onInvoice: true, onAfp: false, has12hrVariant: "TM8A_LT" }, 
-                TM8A_LT: { code: "TM8A", description: "Lane closure (Dual Carriageway or Motorway <40mph) additional 12 hours", price: 845, onInvoice: true, onAfp: false },
+                TM08_UPTO: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false, has12hrVariant: "TM8A_UPTO", specialAction: "I&A Invoice" }, // Was TM08_GE
+                TM8A_UPTO: { code: "TBA", description: "TBA", price: 0, onInvoice: true, onAfp: false }, // Was TM8A_GE
+                TM08_OVER: { code: "TM08", description: "Lane closure (Dual Carriageway or Motorway Over 40mph)", price: 845, onInvoice: true, onAfp: false, has12hrVariant: "TM8A_OVER" },  // Was TM08_LT
+                TM8A_OVER: { code: "TM8A", description: "Lane closure (Dual Carriageway or Motorway Over 40mph) additional 12 hours", price: 845, onInvoice: true, onAfp: false }, // Was TM8A_LT
                 
                 TM10_PC: { code: "TM10", description: "Temporary signalised pedestrian crossing initial 12 hours synthetic (Ped Crossing Only TM)", price: 225, onInvoice: true, onAfp: true, has12hrVariant: "TMA0_PC" }, 
                 TMA0_PC: { code: "TMA0", description: "Temporary signalised pedestrian additional 12 hours (Ped Crossing Only TM)", price: 25, onInvoice: true, onAfp: true },
@@ -368,8 +367,6 @@
                 TM16_PLAN: { code: "TM16", description: "CAD Drawing - Over 40mph inc Multiway Lights (TM Plan only)", price: 70.20, onInvoice: true, onAfp: true }, 
                 TM13: { code: "TM13", description: "Temporary carriageway closure TO15", price: 690, onInvoice: true, onAfp: false }, 
                 TM22_TO15_NTR: { code: "TM22", description: "TO15 NTR", price: 495, onInvoice: true, onAfp: true },
-
-                // Additional Requirements
                 TM11: { code: "TM11", description: "Labour only for Manual control of signalised Traffic Management", price: 23.50, onInvoice: true, onAfp: true },
                 TM14: { code: "TM14", description: "Out of Hours attendance for Traffic Management", price: 27.50, onInvoice: true, onAfp: false }, 
                 TM10_PedSet: { code: "TM10", description: "Temporary signalised pedestrian crossing initial 12 hours synthetic (Ped Sets)", price: 225, onInvoice: true, onAfp: true, has12hrVariant: "TMA0_PedSet" },
@@ -377,8 +374,6 @@
                 TM16_ADD: { code: "TM16", description: "Additional TM Plan (CAD Drawing - Over 40mph inc Multiway Lights)", price: 70.20, onInvoice: true, onAfp: true },
                 SPEC_SIGNS: { code: "TBA", description: "Special Signs - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
                 BSS_ADD: { code: "TBA", description: "Bus Stop Suspension (Additional Requirement) - Details TBA (Ask Kyle)", price: 0, onInvoice: true, onAfp: true },
-
-                // Emergency Fee
                 TM15: { code: "TM15", description: "Emergency Call Out Fee", price: 90, onInvoice: false, onAfp: true },
             };
 
@@ -467,7 +462,6 @@
                 let mainMessageText = "Please make a selection from Contract Type and Traffic Management categories.";
                 let isSpecialActionIA = false; 
 
-                // Reset visual states
                 invoiceTableContainer.innerHTML = '';
                 afpTableContainer.innerHTML = ''; 
                 additionalNotesContainer.innerHTML = '';
@@ -477,27 +471,28 @@
                 afpActionIcon.classList.remove('active');
                 iaInvoiceActionIcon.classList.add('inactive');
                 iaInvoiceActionIcon.classList.remove('active');
-                actionIconsPlaceholder.classList.remove('hidden'); // Show icons by default
+                actionIconsPlaceholder.classList.remove('hidden');
 
 
                 manageConflicts(selectedTrafficManagement);
 
                 if (selectedContractType && selectedTrafficManagement) {
-                    mainMessageText = ""; // Clear default message
+                    mainMessageText = ""; 
                     let baseItemCodes = []; 
                     let tempSelectedTmItemData = null; 
 
                     if (selectedContractType === "OSA") {
+                        // Updated case values to match new HTML values
                         switch (selectedTrafficManagement) {
-                            case "2 Way Lights (40mph≥)": baseItemCodes.push("TM03_GE_TBA"); break;
-                            case "2 Way Lights (40mph<)": baseItemCodes.push("TM03_LT"); break;
+                            case "2 Way Lights (Up to 40mph)": baseItemCodes.push("TM03_UPTO_TBA"); break;
+                            case "2 Way Lights (Over 40mph)": baseItemCodes.push("TM03_OVER"); break;
                             case "3 Way Lights": baseItemCodes.push("TM04"); break;
                             case "4 Way Lights": baseItemCodes.push("TM05"); break;
-                            case "5 Way Lights": baseItemCodes.push("TM03_GE_TBA", "TM04"); break;
+                            case "5 Way Lights": baseItemCodes.push("TM03_UPTO_TBA", "TM04"); break; // Assumes Up to 40 for 2-way part
                             case "Bus Stop Suspension": baseItemCodes.push("BUS_SUS"); break;
                             case "Footpath Closure": baseItemCodes.push("FOOT_CLOS"); break;
-                            case "Lane Closure (40mph≥)": baseItemCodes.push("TM08_GE"); break;
-                            case "Lane Closure (40mph<)": baseItemCodes.push("TM08_LT"); break;
+                            case "Lane Closure (Up to 40mph)": baseItemCodes.push("TM08_UPTO"); break;
+                            case "Lane Closure (Over 40mph)": baseItemCodes.push("TM08_OVER"); break;
                             case "Ped Crossing Only": baseItemCodes.push("TM10_PC"); break;
                             case "Pre Cone": baseItemCodes.push("PRE_CONE"); break;
                             case "Road closure": baseItemCodes.push("TM09"); break;
@@ -511,8 +506,8 @@
                         }
 
                         if (baseItemCodes.length > 0) {
-                            if (selectedTrafficManagement === "5 Way Lights" && quoteItemsData["TM03_GE_TBA"]?.specialAction === "I&A Invoice") {
-                                tempSelectedTmItemData = quoteItemsData["TM03_GE_TBA"];
+                            if (selectedTrafficManagement === "5 Way Lights" && quoteItemsData["TM03_UPTO_TBA"]?.specialAction === "I&A Invoice") {
+                                tempSelectedTmItemData = quoteItemsData["TM03_UPTO_TBA"];
                             } else {
                                 for (const code of baseItemCodes) {
                                     if (quoteItemsData[code]?.specialAction === "I&A Invoice") {
@@ -632,13 +627,16 @@
                     if (isSpecialActionIA) {
                         iaInvoiceActionIcon.classList.remove('inactive');
                         iaInvoiceActionIcon.classList.add('active');
-                        if (anInvoiceIsNeeded) {
-                             invoiceActionIcon.classList.remove('inactive');
-                             invoiceActionIcon.classList.add('active');
-                        }
-                        if (isEmergency && anAfpIsNeeded) { // AFP icon only active for emergency in I&A
+                        // Ensure Invoice icon is inactive for I&A Invoice
+                        invoiceActionIcon.classList.add('inactive');
+                        invoiceActionIcon.classList.remove('active');
+                        
+                        if (isEmergency && anAfpIsNeeded) { 
                             afpActionIcon.classList.remove('inactive');
                             afpActionIcon.classList.add('active');
+                        } else {
+                            afpActionIcon.classList.add('inactive');
+                            afpActionIcon.classList.remove('active');
                         }
                     } else {
                         if (anInvoiceIsNeeded) {
@@ -663,7 +661,6 @@
                         generateTable(afpTableContainer, "AFP Items", afpItems);
                     }
 
-
                     if (additionalNotes.length > 0) {
                         let notesHtml = '<h4 class="text-md font-semibold text-gray-600 mt-4 mb-1">Additional Notes:</h4><ul>';
                         additionalNotes.forEach(note => {
@@ -673,21 +670,20 @@
                         additionalNotesContainer.innerHTML = notesHtml;
                     }
 
-                    // If no icons were activated, show a message
                     if (invoiceActionIcon.classList.contains('inactive') &&
                         afpActionIcon.classList.contains('inactive') &&
                         iaInvoiceActionIcon.classList.contains('inactive')) {
                         mainMessageText = "No specific quote actions identified for these selections.";
-                         actionIconsPlaceholder.classList.remove('hidden'); // Ensure icons are visible even if all inactive
+                         actionIconsPlaceholder.classList.remove('hidden'); 
                     } else {
-                        actionIconsPlaceholder.classList.remove('hidden'); // Ensure icons are visible
+                        actionIconsPlaceholder.classList.remove('hidden'); 
                     }
 
 
                 } else {
-                     actionIconsPlaceholder.classList.remove('hidden'); // Ensure icons are visible for initial state
+                     actionIconsPlaceholder.classList.remove('hidden'); 
                 }
-                outputMessageElement.textContent = mainMessageText; // Update the separate message element
+                outputMessageElement.textContent = mainMessageText; 
             }
             updateOutput();
         });
